@@ -33,6 +33,11 @@ public class ItemMetaData {
             ItemAttributeData attributeData = new ItemAttributeData(attributeSection);
             attributeData.applyAttributes(itemMeta);
         }
+        ConfigurationSection potionSection = configurationSection.getConfigurationSection("potion");
+        if (potionSection != null) {
+            new PotionMetaData(configurationSection, itemMeta);
+            return;
+        }
         ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
         if (enchantSection != null) {
             EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
