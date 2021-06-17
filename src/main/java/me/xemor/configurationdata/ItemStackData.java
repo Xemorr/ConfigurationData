@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 
 public class ItemStackData {
 
@@ -26,7 +27,9 @@ public class ItemStackData {
         if (metadataSection != null) {
             ItemMeta meta = Bukkit.getItemFactory().getItemMeta(material);
             if (meta != null) {
-                ItemMetaData itemMetaData = new ItemMetaData(metadataSection, meta);
+                ItemMetaData itemMetaData;
+                if (meta instanceof PotionMeta) itemMetaData = new PotionMetaData(metadataSection, meta);
+                else itemMetaData = new ItemMetaData(metadataSection, meta);
                 item.setItemMeta(itemMetaData.getItemMeta());
             }
         }
