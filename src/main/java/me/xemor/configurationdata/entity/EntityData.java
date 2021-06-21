@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -56,25 +57,29 @@ public class EntityData {
             case SKELETON_HORSE:
             case DONKEY:
             case HORSE: new HorseData(extraSection);
+            case SPLASH_POTION: return new PotionEntityData(extraSection);
             default: return null;
         }
     }
 
     @NotNull
-    public LivingEntity createEntity(@NotNull World world, @NotNull Location location) {
-        LivingEntity livingEntity = (LivingEntity) world.spawnEntity(location, entityType);
-        livingEntity.setCustomName(nameTag);
-        handleEquipment(livingEntity);
+    public Entity createEntity(@NotNull World world, @NotNull Location location) {
+        Entity entity = world.spawnEntity(location, entityType);
+        entity.setCustomName(nameTag);
         if (passengerData != null) {
-            LivingEntity passenger = passengerData.createEntity(world, location);
-            livingEntity.addPassenger(passenger);
+            Entity passenger = passengerData.createEntity(world, location);
+            entity.addPassenger(passenger);
         }
         if (extraData != null) {
-            extraData.applyData(livingEntity);
+            extraData.applyData(entity);
         }
-        attributeData.applyAttributes(livingEntity);
-        livingEntity.setHealth(attributeData.getValue(livingEntity, Attribute.GENERIC_MAX_HEALTH));
-        return livingEntity;
+        if (entity instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) entity;
+            handleEquipment(livingEntity);
+            attributeData.applyAttributes(livingEntity);
+            livingEntity.setHealth(attributeData.getValue(livingEntity, Attribute.GENERIC_MAX_HEALTH));
+        }
+        return entity;
     }
 
     public void handleEquipment(LivingEntity livingEntity) {
