@@ -28,7 +28,9 @@ public class ItemStackData {
             ItemMeta meta = Bukkit.getItemFactory().getItemMeta(material);
             if (meta != null) {
                 ItemMetaData itemMetaData;
-                if (meta instanceof PotionMeta) itemMetaData = new PotionMetaData(metadataSection, meta);
+                if (item.getType() == Material.POTION
+                        || item.getType() == Material.SPLASH_POTION
+                        || item.getType() == Material.LINGERING_POTION) itemMetaData = new PotionMetaData(metadataSection, meta);
                 else itemMetaData = new ItemMetaData(metadataSection, meta);
                 item.setItemMeta(itemMetaData.getItemMeta());
             }

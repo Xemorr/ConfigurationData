@@ -49,14 +49,14 @@ public class EntityData {
 
     private ExtraData handleExtraData(ConfigurationSection extraSection) {
         switch (entityType) {
-            case WOLF: new WolfData(extraSection);
+            case WOLF: return new WolfData(extraSection);
             case PHANTOM:
             case MAGMA_CUBE:
-            case SLIME: new SizeData(extraSection);
+            case SLIME: return new SizeData(extraSection);
             case ZOMBIE_HORSE:
             case SKELETON_HORSE:
             case DONKEY:
-            case HORSE: new HorseData(extraSection);
+            case HORSE: return new HorseData(extraSection);
             case SPLASH_POTION: return new PotionEntityData(extraSection);
             default: return null;
         }
