@@ -3,6 +3,7 @@ package me.xemor.configurationdata;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
@@ -25,8 +26,17 @@ public class EnchantmentData {
     }
 
     public void applyEnchantments(ItemMeta itemMeta) {
-        for (Map.Entry<Enchantment, Integer> item : enchantments.entrySet()) {
-            itemMeta.addEnchant(item.getKey(), item.getValue(), true);
+        if (itemMeta instanceof EnchantmentStorageMeta) {
+            EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) itemMeta;
+            for (Map.Entry<Enchantment, Integer> item : enchantments.entrySet()) {
+                enchantmentStorageMeta.addStoredEnchant(item.getKey(), item.getValue(), true);
+            }
         }
+        else {
+            for (Map.Entry<Enchantment, Integer> item : enchantments.entrySet()) {
+                itemMeta.addEnchant(item.getKey(), item.getValue(), true);
+            }
+        }
+
     }
 }

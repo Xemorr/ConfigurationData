@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
@@ -37,8 +38,31 @@ public class ItemStackData {
         }
     }
 
+
+    /**
+     * Please use fuzzyEquals instead.
+     */
+    @Deprecated
     public boolean isEqual(ItemStack item) {
         return item.getType() == this.item.getType() && item.hasItemMeta() == this.item.hasItemMeta() && (!item.hasItemMeta() || Bukkit.getItemFactory().equals(item.getItemMeta(), this.item.getItemMeta()));
+    }
+
+    /**
+     * An equals method that ignores whether there is multiple of the item, or if the item has been damaged.
+     * @param other - the itemstack to compare against
+     * @return a boolean describing whether the two items match
+     */
+    public boolean fuzzyEquals(ItemStack other) {
+        ItemStack copy = other.clone();
+        copy.setAmount(1);
+        if (copy.hasItemMeta()) {
+            ItemMeta metaCopy = copy.getItemMeta();
+            if (metaCopy instanceof Damageable) {
+                ((Damageable) metaCopy).setDamage(0);
+            }
+            copy.setItemMeta(metaCopy);
+        }
+        return copy.equals(item);
     }
 
     public ItemStack getItem()

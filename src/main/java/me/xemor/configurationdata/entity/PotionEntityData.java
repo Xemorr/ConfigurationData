@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.ItemStackData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,7 +19,8 @@ public class PotionEntityData extends ExtraData {
             potion = new ItemStackData(potionSection).getItem();
         }
         else {
-            potion = new ItemStack(Material.POTION);
+            ConfigurationData.getLogger().warning("There was no extra data specified for Potion. " + configurationSection.getCurrentPath());
+            potion = new ItemStack(Material.SPLASH_POTION);
         }
     }
 
