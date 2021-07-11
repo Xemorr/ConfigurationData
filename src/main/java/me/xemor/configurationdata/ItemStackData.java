@@ -31,7 +31,9 @@ public class ItemStackData {
                 ItemMetaData itemMetaData;
                 if (item.getType() == Material.POTION
                         || item.getType() == Material.SPLASH_POTION
-                        || item.getType() == Material.LINGERING_POTION) itemMetaData = new PotionMetaData(metadataSection, meta);
+                        || item.getType() == Material.LINGERING_POTION
+                        || item.getType() == Material.TIPPED_ARROW)
+                    itemMetaData = new PotionMetaData(metadataSection, meta);
                 else itemMetaData = new ItemMetaData(metadataSection, meta);
                 item.setItemMeta(itemMetaData.getItemMeta());
             }
