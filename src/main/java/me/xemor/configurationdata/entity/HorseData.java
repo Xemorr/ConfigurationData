@@ -13,12 +13,13 @@ import org.bukkit.inventory.ItemStack;
 public class HorseData extends ExtraData {
 
     private ItemStack armor = null;
-    private boolean hasSaddle;
+    private final boolean hasSaddle;
     private Horse.Color color;
     private Horse.Style style;
-    private int tamingDifficulty;
-    private double jumpStrength;
-    private boolean isCarryingChest;
+    private final int tamingDifficulty;
+    private final double jumpStrength;
+    private final boolean isCarryingChest;
+    private final boolean tamed;
 
     public HorseData(ConfigurationSection configurationSection) {
         super(configurationSection);
@@ -42,6 +43,7 @@ public class HorseData extends ExtraData {
         this.tamingDifficulty = configurationSection.getInt("tamingDifficulty", 1);
         this.jumpStrength = configurationSection.getDouble("jumpStrength", 0.7);
         this.isCarryingChest = configurationSection.getBoolean("hasChest", false);
+        tamed = configurationSection.getBoolean("tamed", false);
     }
 
     @Override
@@ -51,6 +53,7 @@ public class HorseData extends ExtraData {
             horse.getInventory().setSaddle(hasSaddle ? new ItemStack(Material.SADDLE) : null);
             horse.setMaxDomestication(tamingDifficulty);
             horse.setJumpStrength(jumpStrength);
+            horse.setTamed(tamed);
         }
         if (entity instanceof Horse) {
             Horse horse = (Horse) entity;
