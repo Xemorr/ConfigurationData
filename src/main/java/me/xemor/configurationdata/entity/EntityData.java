@@ -59,6 +59,7 @@ public class EntityData {
             case HORSE: return new HorseData(extraSection);
             case SPLASH_POTION: return new PotionEntityData(extraSection);
             case CREEPER: return new CreeperData(extraSection);
+            case AXOLOTL: return new AxolotlData(extraSection);
             default: return null;
         }
     }
