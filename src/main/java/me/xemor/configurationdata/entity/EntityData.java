@@ -8,6 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.material.Colorable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -54,6 +55,9 @@ public class EntityData {
         Class<? extends Entity> entityClass = entityType.getEntityClass();
         List<ExtraData> extraData = new ArrayList<>();
         //there is no realistic scenario in which that is null
+        if (Colorable.class.isAssignableFrom(entityClass)) {
+            extraData.add(new ColorableData(extraSection));
+        }
         if (AbstractHorse.class.isAssignableFrom(entityClass)) {
             extraData.add(new HorseData(extraSection));
         }
