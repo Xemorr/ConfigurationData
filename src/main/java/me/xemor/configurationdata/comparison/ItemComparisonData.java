@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.comparison;
 
+import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;

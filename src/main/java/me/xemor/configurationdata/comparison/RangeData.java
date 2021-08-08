@@ -22,9 +22,15 @@ public class RangeData {
 
     public void init(String rangeStr) {
         if (rangeStr != null) {
-            List<Double> rangeList = Arrays.stream(rangeStr.split("- ")).map(value -> value.replace(" ", "")).map(Double::valueOf).collect(Collectors.toList());
-            lowerbound = rangeList.get(0);
-            upperbound = rangeList.get(1);
+            String[] split = rangeStr.split("- ");
+            if (split.length == 1) {
+                lowerbound = Double.parseDouble(rangeStr);
+                upperbound = Double.parseDouble(rangeStr);
+            }
+            else {
+                lowerbound = Double.parseDouble(split[0]);
+                upperbound = Double.parseDouble(split[1]);
+            }
         } else {
             lowerbound = Double.NEGATIVE_INFINITY;
             upperbound = Double.POSITIVE_INFINITY;

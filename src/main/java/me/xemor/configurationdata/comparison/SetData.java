@@ -18,6 +18,10 @@ public class SetData<T extends Enum<T>> {
         return set.size() == 0 || set.contains(t);
     }
 
+    public Set<T> getSet() {
+        return set;
+    }
+
     private T valueOf(ConfigurationSection section, String variable, Class<T> tClass, String value) {
         try {
             return Enum.valueOf(tClass, value);
