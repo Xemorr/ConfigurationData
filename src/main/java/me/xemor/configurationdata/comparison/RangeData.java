@@ -8,11 +8,19 @@ import java.util.stream.Collectors;
 
 public class RangeData {
 
-    private final double upperbound;
-    private final double lowerbound;
+    private double upperbound;
+    private double lowerbound;
 
     public RangeData(String variable, ConfigurationSection configurationSection) {
         String rangeStr = configurationSection.getString(variable);
+        init(rangeStr);
+    }
+
+    public RangeData(String rangeStr) {
+        init(rangeStr);
+    }
+
+    public void init(String rangeStr) {
         if (rangeStr != null) {
             List<Double> rangeList = Arrays.stream(rangeStr.split("- ")).map(value -> value.replace(" ", "")).map(Double::valueOf).collect(Collectors.toList());
             lowerbound = rangeList.get(0);

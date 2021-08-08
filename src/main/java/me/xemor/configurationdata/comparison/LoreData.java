@@ -2,6 +2,7 @@ package me.xemor.configurationdata.comparison;
 
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -15,7 +16,8 @@ public class LoreData {
     }
 
     public boolean matches(List<String> lore) {
-        if (patternLore.size() < lore.size()) {
+        if (lore == null) lore = Collections.emptyList();
+        if (patternLore.size() > 0 && patternLore.size() < lore.size()) {
             return false;
         }
         for (int i = 0; i < patternLore.size(); i++) {
