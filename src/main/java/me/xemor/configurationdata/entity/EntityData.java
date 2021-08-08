@@ -6,24 +6,27 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EntityData {
 
-    String nameTag;
-    EntityType entityType;
-    EquipmentData equipmentData;
-    AttributeData attributeData;
-    EntityData passengerData;
-    ExtraData extraData;
+    private String nameTag;
+    private EntityType entityType;
+    private EquipmentData equipmentData;
+    private AttributeData attributeData;
+    private EntityData passengerData;
+    private boolean shouldDespawn;
+    private List<ExtraData> extraData;
 
     public EntityData(ConfigurationSection configurationSection) {
         entityType = EntityType.valueOf(configurationSection.getString("type", "ZOMBIE").toUpperCase());
         nameTag = configurationSection.getString("nametag");
+        shouldDespawn = configurationSection.getBoolean("shouldDespawn", true);
         if (nameTag != null) nameTag = ChatColor.translateAlternateColorCodes('&', nameTag);
         ConfigurationSection equipmentSection = configurationSection.getConfigurationSection("equipment");
         if (equipmentSection == null) equipmentData = new EquipmentData();
@@ -47,36 +50,49 @@ public class EntityData {
         attributeData = new AttributeData();
     }
 
-    private ExtraData handleExtraData(ConfigurationSection extraSection) {
-        switch (entityType) {
-            case WOLF: return new WolfData(extraSection);
-            case PHANTOM:
-            case MAGMA_CUBE:
-            case SLIME: return new SizeData(extraSection);
-            case ZOMBIE_HORSE:
-            case SKELETON_HORSE:
-            case DONKEY:
-            case HORSE: return new HorseData(extraSection);
-            case SPLASH_POTION: return new PotionEntityData(extraSection);
-            case CREEPER: return new CreeperData(extraSection);
-            case AXOLOTL: return new AxolotlData(extraSection);
-            default: return null;
+    private List<ExtraData> handleExtraData(ConfigurationSection extraSection) {
+        Class<? extends Entity> entityClass = entityType.getEntityClass();
+        List<ExtraData> extraData = new ArrayList<>();
+        //there is no realistic scenario in which that is null
+        if (AbstractHorse.class.isAssignableFrom(entityClass)) {
+            extraData.add(new HorseData(extraSection));
         }
+        if (Wolf.class.isAssignableFrom(entityClass)) {
+            extraData.add(new WolfData(extraSection));
+        }
+        if (Slime.class.isAssignableFrom(entityClass) || Phantom.class.isAssignableFrom(entityClass)) {
+            extraData.add(new SizeData(extraSection));
+        }
+        if (ThrownPotion.class.isAssignableFrom(entityClass)) {
+            extraData.add(new PotionEntityData(extraSection));
+        }
+        if (Creeper.class.isAssignableFrom(entityClass)) {
+            extraData.add(new CreeperData(extraSection));
+        }
+        if (Axolotl.class.isAssignableFrom(entityClass)) {
+            extraData.add(new AxolotlData(extraSection));
+        }
+        if (Ageable.class.isAssignableFrom(entityClass)) {
+            extraData.add(new BabyData(extraSection));
+        }
+        return extraData;
     }
 
     @NotNull
     public Entity createEntity(@NotNull World world, @NotNull Location location) {
         Entity entity = world.spawnEntity(location, entityType);
         entity.setCustomName(nameTag);
+        entity.setPersistent(!shouldDespawn);
         if (passengerData != null) {
             Entity passenger = passengerData.createEntity(world, location);
             entity.addPassenger(passenger);
         }
         if (extraData != null) {
-            extraData.applyData(entity);
+            extraData.forEach(data -> data.applyData(entity));
         }
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;
+            livingEntity.setRemoveWhenFarAway(shouldDespawn);
             handleEquipment(livingEntity);
             attributeData.applyAttributes(livingEntity);
             livingEntity.setHealth(attributeData.getValue(livingEntity, Attribute.GENERIC_MAX_HEALTH));
