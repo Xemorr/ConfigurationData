@@ -9,5 +9,9 @@
         <module name="configurationdata" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="configurationdata" target="1.8" />
+      <module name="ConfigurationData" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

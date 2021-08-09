@@ -15,7 +15,7 @@ public class EnchantComparisonData {
     public EnchantComparisonData(ConfigurationSection enchantSection) {
         for (Map.Entry<String, Object> entry : enchantSection.getValues(false).entrySet()) {
             String name = entry.getKey();
-            Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(name));
+            Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(name.toLowerCase()));
             if (entry.getValue() instanceof String) {
                 enchantMap.put(enchant, new RangeData((String) entry.getValue()));
             }
