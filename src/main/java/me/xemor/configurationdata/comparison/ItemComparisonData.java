@@ -11,12 +11,15 @@ public class ItemComparisonData {
 
     private final SetData<Material> types;
     private final RangeData amount;
-    private final ItemMetaComparisonData itemMetaData;
+    private ItemMetaComparisonData itemMetaData;
 
     public ItemComparisonData(ConfigurationSection configurationSection) {
         types = new SetData<>(Material.class, "types", configurationSection);
         amount = new RangeData("amount", configurationSection);
         ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
+        if (metadataSection == null) {
+            return;
+        }
         itemMetaData = new ItemMetaComparisonData(metadataSection);
     }
 
