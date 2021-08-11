@@ -1,9 +1,12 @@
 package me.xemor.configurationdata.comparison;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ItemMetaComparisonData {
@@ -24,7 +27,15 @@ public class ItemMetaComparisonData {
     public boolean matches(ItemMeta meta) {
         boolean matching = matchDisplayName(meta.getDisplayName()) && lore.matches(meta.getLore());
         if (enchantComparisonData != null) {
-            matching |= enchantComparisonData.matches(meta.getEnchants());
+            Map<Enchantment, Integer> enchantMap;
+            if (meta instanceof EnchantmentStorageMeta) {
+                EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) meta;
+                enchantMap = enchantmentStorageMeta.getStoredEnchants();
+            }
+            else {
+                enchantMap = meta.getEnchants();
+            }
+            matching &= enchantComparisonData.matches(enchantMap);
         }
         return matching;
     }
