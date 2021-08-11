@@ -4,6 +4,7 @@ import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.DyeColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Shulker;
 import org.bukkit.material.Colorable;
 
 public class ColorableData extends ExtraData {

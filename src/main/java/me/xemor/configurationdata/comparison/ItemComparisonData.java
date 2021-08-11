@@ -1,6 +1,5 @@
 package me.xemor.configurationdata.comparison;
 
-import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -27,7 +26,11 @@ public class ItemComparisonData {
         ItemMeta meta;
         if (item.hasItemMeta()) meta = item.getItemMeta();
         else meta = Bukkit.getItemFactory().getItemMeta(item.getType());
-        return types.inSet(item.getType()) && amount.isInRange(item.getAmount()) && itemMetaData.matches(meta);
+        boolean value = types.inSet(item.getType()) && amount.isInRange(item.getAmount());
+        if (itemMetaData != null) {
+            value |= itemMetaData.matches(meta);
+        }
+        return value;
     }
 
 }
