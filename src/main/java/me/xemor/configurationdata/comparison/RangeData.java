@@ -2,10 +2,6 @@ package me.xemor.configurationdata.comparison;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class RangeData {
 
     private double upperbound;

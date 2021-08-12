@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.comparison;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Collections;
@@ -12,7 +13,7 @@ public class LoreData {
     private final List<Pattern> patternLore;
 
     public LoreData(String variable, ConfigurationSection configurationSection) {
-        patternLore = configurationSection.getStringList(variable).stream().map(Pattern::compile).collect(Collectors.toList());
+        patternLore = configurationSection.getStringList(variable).stream().map(string -> ChatColor.translateAlternateColorCodes('&', string)).map(Pattern::compile).collect(Collectors.toList());
     }
 
     public boolean matches(List<String> lore) {
