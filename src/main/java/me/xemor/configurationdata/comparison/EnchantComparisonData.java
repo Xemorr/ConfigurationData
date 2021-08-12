@@ -34,8 +34,8 @@ public class EnchantComparisonData {
         for (Map.Entry<Enchantment, RangeData> entry : enchantMap.entrySet()) {
             Enchantment enchantment = entry.getKey();
             RangeData levelRange = entry.getValue();
-            int level = enchantments.get(enchantment);
-            if (levelRange == null) return false;
+            Integer level = enchantments.get(enchantment);
+            if (level == null) return false;
             if (!levelRange.isInRange(level)) return false;
         }
         return true;
