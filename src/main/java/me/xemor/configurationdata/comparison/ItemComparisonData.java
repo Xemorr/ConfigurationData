@@ -27,6 +27,7 @@ public class ItemComparisonData {
         if (item.hasItemMeta()) meta = item.getItemMeta();
         else meta = Bukkit.getItemFactory().getItemMeta(item.getType());
         boolean value = types.inSet(item.getType()) && amount.isInRange(item.getAmount());
+        if (meta == null && itemMetaData != null) return false;
         if (itemMetaData != null) {
             value &= itemMetaData.matches(meta);
         }

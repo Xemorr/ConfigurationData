@@ -55,6 +55,12 @@ public class EntityData {
         Class<? extends Entity> entityClass = entityType.getEntityClass();
         List<ExtraData> extraData = new ArrayList<>();
         //there is no realistic scenario in which that is null
+        if (LivingEntity.class.isAssignableFrom(entityClass)) {
+            extraData.add(new LivingEntityData(extraSection));
+        }
+        if (Hoglin.class.isAssignableFrom(entityClass) || PiglinAbstract.class.isAssignableFrom(entityClass)) {
+            extraData.add(new ZombifiableData(extraSection));
+        }
         if (Colorable.class.isAssignableFrom(entityClass)) {
             extraData.add(new ColorableData(extraSection));
         }
