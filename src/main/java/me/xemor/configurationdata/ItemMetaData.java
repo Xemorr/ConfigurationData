@@ -1,9 +1,13 @@
 package me.xemor.configurationdata;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,10 +42,22 @@ public class ItemMetaData {
             EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
             enchantmentData.applyEnchantments(itemMeta);
         }
+        if (baseMeta instanceof LeatherArmorMeta) {
+            LeatherArmorMeta armorMeta = (LeatherArmorMeta) baseMeta;
+            int red = configurationSection.getInt("color.red", -1);
+            int green = configurationSection.getInt("color.green", -1);
+            int blue = configurationSection.getInt("color.blue", -1);
+            Color color;
+            if (red == -1 || blue == -1 || green == -1) {
+                color = null;
+            } else {
+                color = Color.fromRGB(red, green, blue);
+            }
+            armorMeta.setColor(color);
+        }
     }
 
-    public ItemMeta getItemMeta()
-    {
+    public ItemMeta getItemMeta() {
         return itemMeta;
     }
 

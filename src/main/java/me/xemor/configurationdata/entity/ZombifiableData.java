@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Hoglin;
 import org.bukkit.entity.PiglinAbstract;
+import org.bukkit.entity.Zombie;
 
 public class ZombifiableData extends ExtraData {
 
