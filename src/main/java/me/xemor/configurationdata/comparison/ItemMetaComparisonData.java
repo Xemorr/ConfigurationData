@@ -6,7 +6,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -17,7 +16,7 @@ public class ItemMetaComparisonData {
     private EnchantComparisonData enchantComparisonData = null;
 
     public ItemMetaComparisonData(ConfigurationSection configurationSection) {
-        displayName = Pattern.compile(ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayName", "")));
+        displayName = Pattern.compile(ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayName", ".+")));
         lore = new LoreData("lore", configurationSection);
         ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
         if (enchantSection != null) {
