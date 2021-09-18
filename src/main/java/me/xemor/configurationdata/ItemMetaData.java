@@ -42,8 +42,8 @@ public class ItemMetaData {
             EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
             enchantmentData.applyEnchantments(itemMeta);
         }
-        if (baseMeta instanceof LeatherArmorMeta) {
-            LeatherArmorMeta armorMeta = (LeatherArmorMeta) baseMeta;
+        if (itemMeta instanceof LeatherArmorMeta) {
+            LeatherArmorMeta armorMeta = (LeatherArmorMeta) itemMeta;
             int red = configurationSection.getInt("color.red", -1);
             int green = configurationSection.getInt("color.green", -1);
             int blue = configurationSection.getInt("color.blue", -1);
