@@ -5,6 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -36,6 +37,10 @@ public class ItemMetaComparisonData {
                 enchantMap = meta.getEnchants();
             }
             matching &= enchantComparisonData.matches(enchantMap);
+        }
+        if (meta instanceof PotionMeta) {
+            PotionMeta potionMeta = (PotionMeta) meta;
+            potionMeta.getBasePotionData().getType();
         }
         return matching;
     }
