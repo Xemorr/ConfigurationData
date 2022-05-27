@@ -14,8 +14,8 @@ public class ItemComparisonData {
 
     public ItemComparisonData(ConfigurationSection configurationSection) {
         types = new SetData<>(Material.class, "types", configurationSection);
-        if (types.isEmpty()) {
-            types.add(Material.valueOf(configurationSection.getString("type", "STONE")));
+        if (types.getSet().isEmpty()) {
+            types.getSet().add(Material.valueOf(configurationSection.getString("type", "STONE")));
         }
         amount = new RangeData("amount", configurationSection);
         ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
