@@ -1,7 +1,7 @@
 package me.xemor.configurationdata.comparison;
 
-import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.configuration.ConfigurationSection;
+import me.xemor.configurationdata.ConfigurationData;
 
 import java.util.Set;
 import java.util.stream.Collectors;
