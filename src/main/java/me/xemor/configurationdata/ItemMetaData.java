@@ -1,5 +1,8 @@
 package me.xemor.configurationdata;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -14,13 +17,16 @@ import java.util.stream.Collectors;
 
 public class ItemMetaData {
 
-    private ItemMeta itemMeta;
+    private final ItemMeta itemMeta;
+    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+
 
     public ItemMetaData(ConfigurationSection configurationSection, ItemMeta baseMeta) {
         itemMeta = baseMeta.clone();
         String displayName = configurationSection.getString("displayName");
         if (displayName != null) {
-            itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', displayName));
+            Component component = MiniMessage.miniMessage().deserialize(displayName);
+            itemMeta.setDisplayName(legacySerializer.serialize(component));
         }
         List<String> lore = configurationSection.getStringList("lore");
         lore = lore.stream().map(string -> ChatColor.translateAlternateColorCodes('&', string)).collect(Collectors.toList());

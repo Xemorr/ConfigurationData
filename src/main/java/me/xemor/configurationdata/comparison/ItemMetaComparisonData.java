@@ -1,5 +1,7 @@
 package me.xemor.configurationdata.comparison;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -16,8 +18,11 @@ public class ItemMetaComparisonData {
     private final LoreData lore;
     private EnchantComparisonData enchantComparisonData = null;
 
+    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+
+
     public ItemMetaComparisonData(ConfigurationSection configurationSection) {
-        displayName = Pattern.compile(ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayName", ".+")));
+        displayName = Pattern.compile(legacySerializer.serialize(MiniMessage.miniMessage().deserialize(configurationSection.getString("displayName", ".+"))));
         lore = new LoreData("lore", configurationSection);
         ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
         if (enchantSection != null) {
