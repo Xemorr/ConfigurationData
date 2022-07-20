@@ -29,7 +29,7 @@ public class ItemMetaData {
             itemMeta.setDisplayName(legacySerializer.serialize(component));
         }
         List<String> lore = configurationSection.getStringList("lore");
-        lore = lore.stream().map(string -> ChatColor.translateAlternateColorCodes('&', string)).collect(Collectors.toList());
+        lore = lore.stream().map(string -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(string))).collect(Collectors.toList());
         itemMeta.setLore(lore);
         boolean isUnbreakable = configurationSection.getBoolean("isUnbreakable", false);
         itemMeta.setUnbreakable(isUnbreakable);

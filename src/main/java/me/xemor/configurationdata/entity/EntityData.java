@@ -1,6 +1,8 @@
 package me.xemor.configurationdata.entity;
 
 import me.xemor.configurationdata.AttributeData;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,23 +14,26 @@ import org.bukkit.material.Colorable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EntityData {
 
     private String nameTag;
-    private EntityType entityType;
-    private EquipmentData equipmentData;
-    private AttributeData attributeData;
+    private final EntityType entityType;
+    private final EquipmentData equipmentData;
+    private final AttributeData attributeData;
     private EntityData passengerData;
     private boolean shouldDespawn;
     private List<ExtraData> extraData;
+    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+
 
     public EntityData(ConfigurationSection configurationSection) {
         entityType = EntityType.valueOf(configurationSection.getString("type", "ZOMBIE").toUpperCase());
-        nameTag = configurationSection.getString("nametag");
+        nameTag = configurationSection.getString("nametag","Default Nametag");
         shouldDespawn = configurationSection.getBoolean("shouldDespawn", true);
-        if (nameTag != null) nameTag = ChatColor.translateAlternateColorCodes('&', nameTag);
+        if (nameTag != null) nameTag = legacySerializer.serialize(MiniMessage.miniMessage().deserialize(nameTag));
         ConfigurationSection equipmentSection = configurationSection.getConfigurationSection("equipment");
         if (equipmentSection == null) equipmentData = new EquipmentData();
         else equipmentData = new EquipmentData(equipmentSection);
@@ -54,7 +59,7 @@ public class EntityData {
     private List<ExtraData> handleExtraData(ConfigurationSection extraSection) {
         Class<? extends Entity> entityClass = entityType.getEntityClass();
         List<ExtraData> extraData = new ArrayList<>();
-        //there is no realistic scenario in which that is null
+        if (entityClass == null) return Collections.emptyList(); //there is no realistic scenario in which that is null: update, we check for it anyway.
         if (LivingEntity.class.isAssignableFrom(entityClass)) {
             extraData.add(new LivingEntityData(extraSection));
         }
@@ -112,6 +117,7 @@ public class EntityData {
 
     public void handleEquipment(LivingEntity livingEntity) {
         EntityEquipment equipment = livingEntity.getEquipment();
+        if (equipment == null) return;
         equipment.setHelmet(equipmentData.getHelmet(), true);
         equipment.setHelmetDropChance(equipmentData.getHelmetDropRate());
         equipment.setChestplate(equipmentData.getChestplate(), true);

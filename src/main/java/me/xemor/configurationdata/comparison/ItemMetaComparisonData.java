@@ -31,6 +31,7 @@ public class ItemMetaComparisonData {
     }
 
     public boolean matches(ItemMeta meta) {
+        if (meta == null) return false;
         boolean matching = matchDisplayName(meta.getDisplayName()) && lore.matches(meta.getLore());
         if (enchantComparisonData != null) {
             Map<Enchantment, Integer> enchantMap;

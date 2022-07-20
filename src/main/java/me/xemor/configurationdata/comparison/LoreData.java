@@ -1,5 +1,7 @@
 package me.xemor.configurationdata.comparison;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -11,9 +13,15 @@ import java.util.stream.Collectors;
 public class LoreData {
 
     private final List<Pattern> patternLore;
+    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+
 
     public LoreData(String variable, ConfigurationSection configurationSection) {
-        patternLore = configurationSection.getStringList(variable).stream().map(string -> ChatColor.translateAlternateColorCodes('&', string)).map(Pattern::compile).collect(Collectors.toList());
+        patternLore = configurationSection.getStringList(variable)
+                .stream()
+                .map(string -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(string)))
+                .map(Pattern::compile)
+                .collect(Collectors.toList());
     }
 
     public boolean matches(List<String> lore) {
