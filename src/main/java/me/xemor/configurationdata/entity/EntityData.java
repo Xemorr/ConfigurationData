@@ -31,7 +31,7 @@ public class EntityData {
 
     public EntityData(ConfigurationSection configurationSection) {
         entityType = EntityType.valueOf(configurationSection.getString("type", "ZOMBIE").toUpperCase());
-        nameTag = configurationSection.getString("nametag","Default Nametag");
+        nameTag = configurationSection.getString("nametag");
         shouldDespawn = configurationSection.getBoolean("shouldDespawn", true);
         if (nameTag != null) nameTag = legacySerializer.serialize(MiniMessage.miniMessage().deserialize(nameTag));
         ConfigurationSection equipmentSection = configurationSection.getConfigurationSection("equipment");
