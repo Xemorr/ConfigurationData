@@ -26,6 +26,7 @@ public class ItemComparisonData {
 
     public boolean matches(ItemStack item) {
         ItemMeta meta;
+        if (item == null) return false;
         if (item.hasItemMeta() && item.getItemMeta() != null) meta = item.getItemMeta();
         else meta = Bukkit.getItemFactory().getItemMeta(item.getType());
         boolean value = types.inSet(item.getType()) && amount.isInRange(item.getAmount());

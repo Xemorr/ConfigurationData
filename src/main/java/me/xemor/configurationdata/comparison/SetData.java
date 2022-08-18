@@ -15,7 +15,7 @@ public class SetData<T extends Enum<T>> {
     }
 
     public boolean inSet(T t) {
-        return set.size() == 0 || set.contains(t);
+        return set.isEmpty() || set.contains(t);
     }
 
     public Set<T> getSet() {
@@ -26,7 +26,7 @@ public class SetData<T extends Enum<T>> {
         try {
             return Enum.valueOf(tClass, value);
         } catch (IllegalArgumentException e) {
-            ConfigurationData.getLogger().severe("You have entered an invalid " + tClass.getName() + " at " + section.getCurrentPath() + "." + variable);
+            ConfigurationData.getLogger().severe("You have entered an invalid " + tClass.getName() + " at " + section.getCurrentPath() + "." + variable + ". Specifically: " + value);
         }
         return null;
     }

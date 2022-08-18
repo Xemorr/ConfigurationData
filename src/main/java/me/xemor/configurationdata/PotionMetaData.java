@@ -1,6 +1,8 @@
 package me.xemor.configurationdata;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
@@ -9,7 +11,7 @@ import org.bukkit.potion.PotionType;
 
 public class PotionMetaData extends ItemMetaData {
 
-    PotionMeta potionMeta;
+    private final PotionMeta potionMeta;
 
     public PotionMetaData(ConfigurationSection configurationSection, ItemMeta baseMeta) {
         super(configurationSection, baseMeta);
@@ -28,6 +30,8 @@ public class PotionMetaData extends ItemMetaData {
             PotionData potionData = new PotionData(potionType, extended, upgraded);
             potionMeta.setBasePotionData(potionData);
         }
+        ItemStack itemStack = new ItemStack(Material.TIPPED_ARROW);
+
     }
 
     @Override

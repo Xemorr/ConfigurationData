@@ -21,7 +21,15 @@ public class ItemStackData {
     }
 
     public void init(ConfigurationSection configurationSection, String defaultMaterial) {
-        Material material = Material.valueOf(configurationSection.getString("type", defaultMaterial).toUpperCase());
+        Material material;
+        try {
+            material = Material.valueOf(configurationSection.getString("type", defaultMaterial).toUpperCase());
+        } catch (IllegalArgumentException e) {
+            ConfigurationData.getLogger().severe("There is an invalid material at " + configurationSection.getCurrentPath() + ".type");
+            e.printStackTrace();
+            material = Material.AIR;
+        }
+        Bukkit.createBlockData(Material.ACACIA_BOAT);
         int amount = configurationSection.getInt("amount", 1);
         item = new ItemStack(material, amount);
         ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
@@ -42,7 +50,7 @@ public class ItemStackData {
 
 
     /**
-     * Please use fuzzyEquals instead.
+     * Please use ItemComparisonData instead.
      */
     @Deprecated
     public boolean isEqual(ItemStack item) {
@@ -50,10 +58,13 @@ public class ItemStackData {
     }
 
     /**
+     * Please use ItemComparisonData instead
+     *
      * An equals method that ignores whether there is multiple of the item, or if the item has been damaged.
      * @param other - the itemstack to compare against
      * @return a boolean describing whether the two items match
      */
+    @Deprecated
     public boolean fuzzyEquals(ItemStack other) {
         ItemStack copy = other.clone();
         copy.setAmount(1);
