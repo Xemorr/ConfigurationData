@@ -29,7 +29,6 @@ public class ItemStackData {
             e.printStackTrace();
             material = Material.AIR;
         }
-        Bukkit.createBlockData(Material.ACACIA_BOAT);
         int amount = configurationSection.getInt("amount", 1);
         item = new ItemStack(material, amount);
         ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
