@@ -20,13 +20,10 @@ public class BlockDataData {
         BlockData blockData = Bukkit.createBlockData(material);
 
         int level = configurationSection.getInt("level",-1);
-        if (level != -1 && blockData instanceof Levelled levelled) {
-            levelled.setLevel(level);
-        }
+        if (level != -1 && blockData instanceof Levelled levelled) levelled.setLevel(level);
 
         int age = configurationSection.getInt("age",-1);
-        if (age != -1 && blockData instanceof Ageable ageable) {
-            ageable.setAge(age);
-        }
+        if (age != -1 && blockData instanceof Ageable ageable) ageable.setAge(age);
+
     }
         }
