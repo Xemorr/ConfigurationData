@@ -29,6 +29,6 @@ public class BlockDataData {
     }
 
     public BlockData getBlockData() {
-        return blockData;
+        return blockData.clone();
     }
 }
