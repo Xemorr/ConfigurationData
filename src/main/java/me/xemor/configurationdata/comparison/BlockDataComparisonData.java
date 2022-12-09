@@ -20,8 +20,6 @@ public class BlockDataComparisonData {
         }
         level = new RangeData("level", configurationSection);
         age = new RangeData("age", configurationSection);
-
-
     }
 
     public boolean matches(BlockData blockData) {
@@ -33,4 +31,5 @@ public class BlockDataComparisonData {
 
         return value;
     }
+
 }

@@ -96,7 +96,9 @@ public class EntityData {
     @NotNull
     public Entity createEntity(@NotNull World world, @NotNull Location location) {
         Entity entity = world.spawnEntity(location, entityType);
-        entity.setCustomName(nameTag);
+        if (nameTag != null) {
+            entity.setCustomName(nameTag);
+        }
         entity.setPersistent(!shouldDespawn);
         if (passengerData != null) {
             Entity passenger = passengerData.createEntity(world, location);
