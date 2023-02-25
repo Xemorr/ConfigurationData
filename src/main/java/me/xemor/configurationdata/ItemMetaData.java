@@ -34,6 +34,10 @@ public class ItemMetaData {
         boolean isUnbreakable = configurationSection.getBoolean("isUnbreakable", false);
         itemMeta.setUnbreakable(isUnbreakable);
         int durability = configurationSection.getInt("durability", 0);
+        // Handles custom models from resource packs
+        int customModelData = configurationSection.getInt("customModelData", 0);
+        itemMeta.setCustomModelData(customModelData);
+        //
         if (durability != 0 && itemMeta instanceof Damageable) {
             Damageable damageable = (Damageable) itemMeta;
             damageable.setDamage(durability);
