@@ -18,9 +18,11 @@ public class PotionEffectData {
             potionType = defaultType;
             ConfigurationData.getLogger().severe("Invalid potion effect type specified at " + configurationSection.getCurrentPath() + ".type");
         }
+        boolean ambient = configurationSection.getBoolean("ambient", true);
+        boolean hasParticles = configurationSection.getBoolean("hasParticles", true);
         if (potionType != null) {
             double duration = configurationSection.getDouble("duration", defaultDuration);
-            createPotion(potionType, duration, potency);
+            createPotion(potionType, duration, potency, ambient, hasParticles);
         }
     }
 
@@ -28,15 +30,15 @@ public class PotionEffectData {
         return potionEffect;
     }
 
-    protected void createPotion(PotionEffectType type, double duration, int potency) {
+    protected void createPotion(PotionEffectType type, double duration, int potency, boolean ambient, boolean hasParticles) {
         if (type.isInstant()) {
-            potionEffect = new PotionEffect(type, 1, potency);
+            potionEffect = new PotionEffect(type, 1, potency, ambient, hasParticles);
         }
         else if (duration != 0) {
-            potionEffect = new PotionEffect(type, (int) Math.round(duration * 20), potency);
+            potionEffect = new PotionEffect(type, (int) Math.round(duration * 20), potency, ambient, hasParticles);
         }
         else {
-            potionEffect = new PotionEffect(type, Integer.MAX_VALUE, potency);
+            potionEffect = new PotionEffect(type, Integer.MAX_VALUE, potency, ambient, hasParticles);
         }
     }
 

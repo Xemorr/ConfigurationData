@@ -90,6 +90,9 @@ public class EntityData {
         if (Ageable.class.isAssignableFrom(entityClass)) {
             extraData.add(new BabyData(extraSection));
         }
+        if (Item.class.isAssignableFrom(entityClass)) {
+            extraData.add(new DroppedItemData(extraSection));
+        }
         return extraData;
     }
 

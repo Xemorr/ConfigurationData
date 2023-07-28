@@ -1,5 +1,6 @@
 package me.xemor.configurationdata;
 
+import me.xemor.configurationdata.comparison.ItemMetaComparisonData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -8,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemFactory;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -52,11 +54,15 @@ public class ItemMetaData {
             EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
             enchantmentData.applyEnchantments(itemMeta);
         }
-        if (itemMeta instanceof LeatherArmorMeta) {
-            LeatherArmorMeta armorMeta = (LeatherArmorMeta) itemMeta;
-            int red = configurationSection.getInt("color.red", -1);
-            int green = configurationSection.getInt("color.green", -1);
-            int blue = configurationSection.getInt("color.blue", -1);
+        handleLeatherArmor(configurationSection, itemMeta);
+        handleBooks(configurationSection, itemMeta);
+    }
+
+    public void handleLeatherArmor(ConfigurationSection section, ItemMeta meta) {
+        if (meta instanceof LeatherArmorMeta armorMeta) {
+            int red = section.getInt("color.red", -1);
+            int green = section.getInt("color.green", -1);
+            int blue = section.getInt("color.blue", -1);
             Color color;
             if (red == -1 || blue == -1 || green == -1) {
                 color = null;
@@ -64,6 +70,20 @@ public class ItemMetaData {
                 color = Color.fromRGB(red, green, blue);
             }
             armorMeta.setColor(color);
+        }
+    }
+
+    public void handleBooks(ConfigurationSection section, ItemMeta meta) {
+        if (meta instanceof BookMeta bookMeta) {
+            List<String> pages = section.getStringList("book.pages").stream()
+                    .map((s) -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(s)))
+                    .toList();
+            String author = section.getString("book.author", "");
+            String title = legacySerializer.serialize(MiniMessage.miniMessage().deserialize(section.getString("book.title", "Xemor is cool")));
+            bookMeta.setGeneration(BookMeta.Generation.ORIGINAL);
+            bookMeta.setAuthor(author);
+            bookMeta.setPages(pages);
+            bookMeta.setTitle(title);
         }
     }
 
