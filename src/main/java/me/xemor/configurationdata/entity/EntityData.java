@@ -93,6 +93,9 @@ public class EntityData {
         if (Item.class.isAssignableFrom(entityClass)) {
             extraData.add(new DroppedItemData(extraSection));
         }
+        if (WitherSkull.class.isAssignableFrom(entityClass)) {
+            extraData.add(new WitherSkullData(extraSection));
+        }
         return extraData;
     }
 
