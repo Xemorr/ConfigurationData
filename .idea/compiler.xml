@@ -10,7 +10,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="configurationdata" target="17" />
       <module name="ConfigurationData" target="1.8" />
     </bytecodeTargetLevel>
   </component>
