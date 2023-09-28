@@ -40,20 +40,30 @@ public class ItemMetaData {
         int customModelData = configurationSection.getInt("customModelData", 0);
         itemMeta.setCustomModelData(customModelData);
         //
+
         if (durability != 0 && itemMeta instanceof Damageable) {
             Damageable damageable = (Damageable) itemMeta;
             damageable.setDamage(durability);
         }
+
         ConfigurationSection attributeSection = configurationSection.getConfigurationSection("attributes");
         if (attributeSection != null) {
             ItemAttributeData attributeData = new ItemAttributeData(attributeSection);
             attributeData.applyAttributes(itemMeta);
         }
+
         ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
         if (enchantSection != null) {
             EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
             enchantmentData.applyEnchantments(itemMeta);
         }
+
+        ConfigurationSection trimSection = configurationSection.getConfigurationSection("trim");
+        if (trimSection != null) {
+            TrimData trimData = new TrimData(trimSection);
+            trimData.applyTrim(itemMeta);
+        }
+
         handleLeatherArmor(configurationSection, itemMeta);
         handleBooks(configurationSection, itemMeta);
     }
