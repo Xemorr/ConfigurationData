@@ -4,30 +4,30 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Optional;
+
 public class PotionEffectData {
 
-    private PotionEffect potionEffect;
+    private PotionEffect potionEffect = null;
 
-    public PotionEffectData(ConfigurationSection configurationSection, PotionEffectType defaultType, int defaultDuration, int defaultPotency) {
-        int potency = configurationSection.getInt("potency", defaultPotency);
+    public PotionEffectData(ConfigurationSection configurationSection) {
+        PotionEffectType potionType = PotionEffectType.getByName(configurationSection.getString("type", "d").toUpperCase());
+        if (potionType == null) {
+            ConfigurationData.getLogger().severe("Invalid potion effect type specified at " + configurationSection.getCurrentPath() + ".type");
+            return;
+        }
+        int potency = configurationSection.getInt("potency");
         if (potency > 0) {
             potency--;
         }
-        PotionEffectType potionType = PotionEffectType.getByName(configurationSection.getString("type", "d").toUpperCase());
-        if (potionType == null) {
-            potionType = defaultType;
-            ConfigurationData.getLogger().severe("Invalid potion effect type specified at " + configurationSection.getCurrentPath() + ".type");
-        }
         boolean ambient = configurationSection.getBoolean("ambient", true);
         boolean hasParticles = configurationSection.getBoolean("hasParticles", true);
-        if (potionType != null) {
-            double duration = configurationSection.getDouble("duration", defaultDuration);
-            createPotion(potionType, duration, potency, ambient, hasParticles);
-        }
+        double duration = configurationSection.getDouble("duration", 5);
+        createPotion(potionType, duration, potency, ambient, hasParticles);
     }
 
-    public PotionEffect getPotionEffect() {
-        return potionEffect;
+    public Optional<PotionEffect> getPotionEffect() {
+        return Optional.ofNullable(potionEffect);
     }
 
     protected void createPotion(PotionEffectType type, double duration, int potency, boolean ambient, boolean hasParticles) {
