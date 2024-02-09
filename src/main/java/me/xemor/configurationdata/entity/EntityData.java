@@ -3,7 +3,6 @@ package me.xemor.configurationdata.entity;
 import me.xemor.configurationdata.AttributeData;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -95,6 +94,9 @@ public class EntityData {
         }
         if (WitherSkull.class.isAssignableFrom(entityClass)) {
             extraData.add(new WitherSkullData(extraSection));
+        }
+        if (Rabbit.class.isAssignableFrom(entityClass)) {
+            extraData.add(new RabbitData(extraSection));
         }
         return extraData;
     }
