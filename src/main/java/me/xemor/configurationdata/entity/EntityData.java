@@ -23,8 +23,8 @@ public class EntityData {
     protected final boolean shouldDespawn;
     private String nameTag;
     protected final AttributeData attributeData;
-    private EntityData passengerData;
-    private final List<EntityAttributeData> attributes = new ArrayList<>();
+    protected EntityData passengerData;
+    protected final List<EntityAttributeData> attributes = new ArrayList<>();
 
     protected EntityData(ConfigurationSection configurationSection) {
         entityType = EntityType.valueOf(configurationSection.getString("type", "ZOMBIE").toUpperCase());
