@@ -4,9 +4,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Wolf;
 
-public class WolfData extends ExtraData {
+public class WolfData extends LivingEntityData {
 
-    boolean angry;
+    private final boolean angry;
 
     public WolfData(ConfigurationSection configurationSection) {
         super(configurationSection);
@@ -14,10 +14,10 @@ public class WolfData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
-        if (entity instanceof Wolf) {
-            Wolf wolf = (Wolf) entity;
-            wolf.setAngry(angry);
-        }
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
+        Wolf wolf = (Wolf) entity;
+        wolf.setAngry(angry);
     }
 }

@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Entity;
 
-public class AxolotlData extends ExtraData {
+public class AxolotlData extends LivingEntityData {
 
     private Axolotl.Variant variant = null;
 
@@ -22,12 +22,12 @@ public class AxolotlData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
-        if (entity instanceof Axolotl) {
-            Axolotl axolotl = (Axolotl) entity;
-            if (variant != null) {
-                axolotl.setVariant(variant);
-            }
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
+        Axolotl axolotl = (Axolotl) entity;
+        if (variant != null) {
+            axolotl.setVariant(variant);
         }
     }
 }

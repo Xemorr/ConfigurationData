@@ -1,10 +1,10 @@
-package me.xemor.configurationdata.entity;
+package me.xemor.configurationdata.entity.attribute;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 
-public class BabyData extends ExtraData {
+public class BabyData extends EntityAttributeData {
 
     private final boolean isBaby;
 
@@ -14,12 +14,11 @@ public class BabyData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
+    public void apply(Entity entity) {
         Ageable ageable = (Ageable) entity;
         if (isBaby) {
             ageable.setBaby();
-        }
-        else {
+        } else {
             ageable.setAdult();
         }
     }

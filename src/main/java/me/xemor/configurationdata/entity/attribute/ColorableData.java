@@ -1,13 +1,12 @@
-package me.xemor.configurationdata.entity;
+package me.xemor.configurationdata.entity.attribute;
 
 import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.DyeColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Shulker;
 import org.bukkit.material.Colorable;
 
-public class ColorableData extends ExtraData {
+public class ColorableData extends EntityAttributeData {
 
     private DyeColor dyeColor;
 
@@ -22,14 +21,8 @@ public class ColorableData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
-        if (entity instanceof Colorable) {
-            Colorable colorable = (Colorable) entity;
-            colorable.setColor(dyeColor);
-        }
-    }
-
-    public DyeColor getDyeColor() {
-        return dyeColor;
+    public void apply(Entity entity) {
+        Colorable colorable = (Colorable) entity;
+        colorable.setColor(dyeColor);
     }
 }

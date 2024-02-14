@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.WitherSkull;
 
-public class WitherSkullData extends ExtraData {
+public class WitherSkullData extends EntityData {
 
     private final boolean isCharged;
 
@@ -14,9 +14,10 @@ public class WitherSkullData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
-        if (entity instanceof WitherSkull witherSkull) {
-            witherSkull.setCharged(isCharged);
-        }
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
+        WitherSkull witherSkull = (WitherSkull) entity;
+        witherSkull.setCharged(isCharged);
     }
 }

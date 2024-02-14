@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 
-public class DroppedItemData extends ExtraData {
+public class DroppedItemData extends EntityData {
 
     private final ItemStackData stackData;
 
@@ -15,9 +15,10 @@ public class DroppedItemData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
-        if (entity instanceof Item droppedItem) {
-            droppedItem.setItemStack(stackData.getItem());
-        }
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
+        Item droppedItem = (Item) entity;
+        droppedItem.setItemStack(stackData.getItem());
     }
 }

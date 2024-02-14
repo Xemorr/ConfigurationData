@@ -8,14 +8,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
 
-public class PotionEntityData extends ExtraData {
+public class PotionEntityData extends EntityData {
 
-    ItemStack potion;
+    private final ItemStack potion;
 
     public PotionEntityData(ConfigurationSection configurationSection) {
         super(configurationSection);
         ConfigurationSection potionSection = configurationSection.getConfigurationSection("potion");
-        if (potion != null) {
+        if (potionSection != null) {
             potion = new ItemStackData(potionSection).getItem();
         }
         else {
@@ -25,7 +25,9 @@ public class PotionEntityData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
         ThrownPotion thrownPotion = (ThrownPotion) entity;
         thrownPotion.setItem(potion);
     }

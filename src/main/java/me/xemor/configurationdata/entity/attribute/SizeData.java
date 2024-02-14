@@ -1,13 +1,13 @@
-package me.xemor.configurationdata.entity;
+package me.xemor.configurationdata.entity.attribute;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Slime;
 
-public class SizeData extends ExtraData {
+public class SizeData extends EntityAttributeData {
 
-    int size;
+    private final int size;
 
     public SizeData(ConfigurationSection configurationSection) {
         super(configurationSection);
@@ -15,7 +15,7 @@ public class SizeData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
+    public void apply(Entity entity) {
         if (entity instanceof Slime) {
             Slime slime = (Slime) entity;
             slime.setSize(size);

@@ -10,23 +10,30 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.inventory.ItemStack;
 
-public class HorseData extends ExtraData {
+public class HorseData extends LivingEntityData {
 
-    private ItemStack armor = null;
-    private final boolean hasSaddle;
-    private Horse.Color color;
-    private Horse.Style style;
     private final int tamingDifficulty;
     private final double jumpStrength;
     private final boolean isCarryingChest;
     private final boolean tamed;
+    private ItemStack armor = null;
+    private final boolean hasSaddle;
+    private Horse.Color color;
+    private Horse.Style style;
 
     public HorseData(ConfigurationSection configurationSection) {
         super(configurationSection);
+
+        this.tamingDifficulty = configurationSection.getInt("tamingDifficulty", 1);
+        this.jumpStrength = configurationSection.getDouble("jumpStrength", 0.7);
+        this.isCarryingChest = configurationSection.getBoolean("hasChest", false);
+        this.tamed = configurationSection.getBoolean("tamed", false);
+
         ConfigurationSection armorSection = configurationSection.getConfigurationSection("armorSection");
         if (armorSection != null) {
             armor = new ItemStackData(armorSection).getItem();
         }
+
         hasSaddle = configurationSection.getBoolean("hasSaddle", false);
         String colorStr = configurationSection.getString("color", "CHESTNUT").toUpperCase();
         try {
@@ -34,20 +41,19 @@ public class HorseData extends ExtraData {
         } catch (IllegalArgumentException e) {
             ConfigurationData.getLogger().severe("Invalid color entered for horse " + colorStr);
         }
+
         String styleStr = configurationSection.getString("style", "NONE").toUpperCase();
         try {
             style = Horse.Style.valueOf(styleStr);
         } catch(IllegalArgumentException e) {
             ConfigurationData.getLogger().severe("Invalid style entered for horse " + styleStr);
         }
-        this.tamingDifficulty = configurationSection.getInt("tamingDifficulty", 1);
-        this.jumpStrength = configurationSection.getDouble("jumpStrength", 0.7);
-        this.isCarryingChest = configurationSection.getBoolean("hasChest", false);
-        tamed = configurationSection.getBoolean("tamed", false);
     }
 
     @Override
-    public void applyData(Entity entity) {
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
         if (entity instanceof AbstractHorse) {
             AbstractHorse horse = (AbstractHorse) entity;
             horse.getInventory().setSaddle(hasSaddle ? new ItemStack(Material.SADDLE) : null);
@@ -55,6 +61,7 @@ public class HorseData extends ExtraData {
             horse.setJumpStrength(jumpStrength);
             horse.setTamed(tamed);
         }
+
         if (entity instanceof Horse) {
             Horse horse = (Horse) entity;
             horse.getInventory().setArmor(armor);
