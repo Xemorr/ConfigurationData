@@ -14,6 +14,7 @@ public class EntityDataRegistry {
         registerEntityData(EntityType.AXOLOTL, AxolotlData.class);
         registerEntityData(EntityType.CREEPER, CreeperData.class);
         registerEntityData(EntityType.DROPPED_ITEM, DroppedItemData.class);
+        registerEntityData(EntityType.FALLING_BLOCK, FallingBlockData.class);
         registerEntityData(EntityType.HORSE, HorseData.class);
         registerEntityData(EntityType.SKELETON_HORSE, HorseData.class);
         registerEntityData(EntityType.ZOMBIE_HORSE, HorseData.class);
