@@ -4,7 +4,6 @@ import me.xemor.configurationdata.AttributeData;
 import me.xemor.configurationdata.entity.attribute.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -12,7 +11,6 @@ import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,19 +94,10 @@ public class EntityData {
     }
 
     public static EntityData create(ConfigurationSection configurationSection) {
-        EntityType entityType = EntityType.valueOf(configurationSection.getString("type", "ZOMBIE").toUpperCase());
+        String entityTypeRaw = configurationSection.getString("type", "ZOMBIE");
+        EntityType entityType = EntityType.valueOf(entityTypeRaw.toUpperCase());
 
-        try {
-            return EntityDataRegistry.getClass(entityType).getConstructor(ConfigurationSection.class).newInstance(configurationSection);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            Throwable result = e;
-            if (e instanceof InvocationTargetException c) {
-                result = c.getCause();
-            }
-            Bukkit.getLogger().severe("Exception for " + EntityDataRegistry.getClass(entityType).getName());
-            result.printStackTrace();
-        }
-
-        return null;
+        EntityDataRegistry.EntityDataConstructor entityDataConstructor = EntityDataRegistry.getConstructor(entityType);
+        return entityDataConstructor != null ? entityDataConstructor.apply(configurationSection) : null;
     }
 }
