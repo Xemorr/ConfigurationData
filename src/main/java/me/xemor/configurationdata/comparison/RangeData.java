@@ -18,7 +18,7 @@ public class RangeData {
 
     public void init(String rangeStr) {
         if (rangeStr != null) {
-            String[] split = rangeStr.replace(" ", "").split("-");
+            String[] split = rangeStr.split("- ");
             if (split.length == 1) {
                 lowerbound = Double.parseDouble(rangeStr);
                 upperbound = Double.parseDouble(rangeStr);
