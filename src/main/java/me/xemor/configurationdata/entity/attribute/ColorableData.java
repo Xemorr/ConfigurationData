@@ -10,13 +10,18 @@ public class ColorableData extends EntityAttributeData {
 
     private DyeColor dyeColor;
 
-    public ColorableData(ConfigurationSection section) {
-        super(section);
-        String dyeColorStr = section.getString("color");
+    public ColorableData(ConfigurationSection configurationSection) {
+        super(configurationSection);
+        if (configurationSection.contains("extra")) {
+            configurationSection = configurationSection.getConfigurationSection("extra");
+            ConfigurationData.getLogger().severe("Deprecation warning at '" + configurationSection.getCurrentPath() + "', the contents of the 'extra' section should now be placed in the root of the entity section");
+        }
+
+        String dyeColorStr = configurationSection.getString("color");
         try {
             dyeColor = DyeColor.valueOf(dyeColorStr);
         } catch (IllegalArgumentException e) {
-            ConfigurationData.getLogger().severe("You have entered an invalid color at " + section.getCurrentPath() + ".color");
+            ConfigurationData.getLogger().severe("You have entered an invalid color at " + configurationSection.getCurrentPath() + ".color");
         }
     }
 

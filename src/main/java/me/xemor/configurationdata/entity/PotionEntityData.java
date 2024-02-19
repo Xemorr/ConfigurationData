@@ -14,6 +14,11 @@ public class PotionEntityData extends EntityData {
 
     public PotionEntityData(ConfigurationSection configurationSection) {
         super(configurationSection);
+        if (configurationSection.contains("extra")) {
+            configurationSection = configurationSection.getConfigurationSection("extra");
+            ConfigurationData.getLogger().severe("Deprecation warning at '" + configurationSection.getCurrentPath() + "', the contents of the 'extra' section should now be placed in the root of the entity section");
+        }
+
         ConfigurationSection potionSection = configurationSection.getConfigurationSection("potion");
         if (potionSection != null) {
             potion = new ItemStackData(potionSection).getItem();

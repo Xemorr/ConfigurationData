@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -13,6 +14,11 @@ public class CreeperData extends LivingEntityData {
 
     public CreeperData(ConfigurationSection configurationSection) {
         super(configurationSection);
+        if (configurationSection.contains("extra")) {
+            configurationSection = configurationSection.getConfigurationSection("extra");
+            ConfigurationData.getLogger().severe("Deprecation warning at '" + configurationSection.getCurrentPath() + "', the contents of the 'extra' section should now be placed in the root of the entity section");
+        }
+
         fuse = configurationSection.getInt("fuse", 30);
         ignite = configurationSection.getBoolean("ignited", false);
         explosionRadius = configurationSection.getInt("explosionRadius", 3);
