@@ -62,6 +62,9 @@ public class EntityData {
         if (Ageable.class.isAssignableFrom(entityClass)) {
             attributes.add(new BabyData(configurationSection));
         }
+        if (ThrowableProjectile.class.isAssignableFrom(entityClass)) {
+            attributes.add(new ThrowableProjectileData(configurationSection));
+        }
     }
 
     public EntityData() {
