@@ -10,6 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +100,19 @@ public class EntityData {
         return attributeData;
     }
 
-    public static EntityData create(ConfigurationSection configurationSection) {
-        String entityTypeRaw = configurationSection.getString("type", "ZOMBIE");
-        EntityType entityType = EntityType.valueOf(entityTypeRaw.toUpperCase());
+    public static EntityData create(ConfigurationSection configurationSection, @Nullable EntityType def) {
+        if (def == null) {
+            def = EntityType.ZOMBIE;
+        }
+
+        String entityTypeRaw = configurationSection.getString("type");
+        EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
 
         EntityDataRegistry.EntityDataConstructor entityDataConstructor = EntityDataRegistry.getConstructor(entityType);
         return entityDataConstructor != null ? entityDataConstructor.apply(configurationSection) : null;
+    }
+
+    public static EntityData create(ConfigurationSection configurationSection) {
+        return create(configurationSection, null);
     }
 }
