@@ -1,6 +1,5 @@
 package me.xemor.configurationdata.entity;
 
-import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Wolf;
@@ -11,10 +10,6 @@ public class WolfData extends LivingEntityData {
 
     public WolfData(ConfigurationSection configurationSection) {
         super(configurationSection);
-        if (configurationSection.contains("extra")) {
-            configurationSection = configurationSection.getConfigurationSection("extra");
-            ConfigurationData.getLogger().severe("Deprecated: The contents of the 'extra' section at '" + configurationSection.getCurrentPath() + "' should now be placed in the root of the entity section");
-        }
 
         angry = configurationSection.getBoolean("angry", false);
     }

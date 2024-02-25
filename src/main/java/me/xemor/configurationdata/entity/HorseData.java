@@ -23,10 +23,6 @@ public class HorseData extends LivingEntityData {
 
     public HorseData(ConfigurationSection configurationSection) {
         super(configurationSection);
-        if (configurationSection.contains("extra")) {
-            configurationSection = configurationSection.getConfigurationSection("extra");
-            ConfigurationData.getLogger().severe("Deprecated: The contents of the 'extra' section at '" + configurationSection.getCurrentPath() + "' should now be placed in the root of the entity section");
-        }
 
         this.tamingDifficulty = configurationSection.getInt("tamingDifficulty", 1);
         this.jumpStrength = configurationSection.getDouble("jumpStrength", 0.7);

@@ -1,6 +1,7 @@
 package me.xemor.configurationdata.entity;
 
 import me.xemor.configurationdata.AttributeData;
+import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.entity.attribute.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -26,18 +27,20 @@ public class EntityData {
     protected final List<EntityAttributeData> attributes = new ArrayList<>();
 
     protected EntityData(ConfigurationSection configurationSection) {
-        entityType = EntityType.valueOf(configurationSection.getString("type", "ZOMBIE").toUpperCase());
-        shouldDespawn = configurationSection.getBoolean("shouldDespawn", true);
+        ConfigurationSection rootSection = configurationSection.getName().equals("extra") ? configurationSection.getParent() : configurationSection;
 
-        nameTag = configurationSection.getString("nametag");
+        entityType = EntityType.valueOf(rootSection.getString("type", "ZOMBIE").toUpperCase());
+        shouldDespawn = rootSection.getBoolean("shouldDespawn", true);
+
+        nameTag = rootSection.getString("nametag");
         if (nameTag != null) {
             nameTag = LEGACY_SERIALIZER.serialize(MiniMessage.miniMessage().deserialize(nameTag));
         }
         
-        ConfigurationSection attributeSection = configurationSection.getConfigurationSection("attributes");
+        ConfigurationSection attributeSection = rootSection.getConfigurationSection("attributes");
         attributeData = attributeSection != null ? new AttributeData(attributeSection) : new AttributeData();
         
-        ConfigurationSection passengerSection = configurationSection.getConfigurationSection("passenger");
+        ConfigurationSection passengerSection = rootSection.getConfigurationSection("passenger");
         if (passengerSection != null) {
             passengerData = new EntityData(passengerSection);
         }
@@ -107,6 +110,11 @@ public class EntityData {
 
         String entityTypeRaw = configurationSection.getString("type");
         EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
+
+        if (configurationSection.contains("extra")) {
+            configurationSection = configurationSection.getConfigurationSection("extra");
+            ConfigurationData.getLogger().severe("Deprecated: The contents of the 'extra' section at '" + configurationSection.getCurrentPath() + "' should now be placed in the root of the entity section");
+        }
 
         EntityDataRegistry.EntityDataConstructor entityDataConstructor = EntityDataRegistry.getConstructor(entityType);
         return entityDataConstructor != null ? entityDataConstructor.apply(configurationSection) : null;

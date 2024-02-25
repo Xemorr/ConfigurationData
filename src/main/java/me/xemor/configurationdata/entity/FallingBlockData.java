@@ -1,7 +1,6 @@
 package me.xemor.configurationdata.entity;
 
 import me.xemor.configurationdata.BlockDataData;
-import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
@@ -21,10 +20,6 @@ public class FallingBlockData extends EntityData {
 
     public FallingBlockData(ConfigurationSection configurationSection) {
         super(configurationSection);
-        if (configurationSection.contains("extra")) {
-            configurationSection = configurationSection.getConfigurationSection("extra");
-            ConfigurationData.getLogger().severe("Deprecated: The contents of the 'extra' section at '" + configurationSection.getCurrentPath() + "' should now be placed in the root of the entity section");
-        }
 
         blockData = new BlockDataData(configurationSection).getBlockData();
         dropItem = configurationSection.getBoolean("dropItem", true);
