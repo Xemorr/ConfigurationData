@@ -50,8 +50,9 @@ public class EntityData {
             return; // There is no realistic scenario in which that is null but, we check for it anyway.
         }
 
-        if (Hoglin.class.isAssignableFrom(entityClass) || PiglinAbstract.class.isAssignableFrom(entityClass)) {
-            attributes.add(new ZombifiableData(configurationSection));
+        // Entity attributes are ordered alphabetically
+        if (Ageable.class.isAssignableFrom(entityClass)) {
+            attributes.add(new BabyData(configurationSection));
         }
         if (Colorable.class.isAssignableFrom(entityClass)) {
             attributes.add(new ColorableData(configurationSection));
@@ -59,11 +60,11 @@ public class EntityData {
         if (Slime.class.isAssignableFrom(entityClass) || Phantom.class.isAssignableFrom(entityClass)) {
             attributes.add(new SizeData(configurationSection));
         }
-        if (Ageable.class.isAssignableFrom(entityClass)) {
-            attributes.add(new BabyData(configurationSection));
-        }
         if (ThrowableProjectile.class.isAssignableFrom(entityClass)) {
             attributes.add(new ThrowableProjectileData(configurationSection));
+        }
+        if (Hoglin.class.isAssignableFrom(entityClass) || PiglinAbstract.class.isAssignableFrom(entityClass)) {
+            attributes.add(new ZombifiableData(configurationSection));
         }
     }
 
