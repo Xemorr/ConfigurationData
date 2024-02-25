@@ -66,6 +66,12 @@ public class EntityData {
         attributeData = new AttributeData();
     }
 
+    public EntityData(EntityType entityType) {
+        this.entityType = entityType;
+        shouldDespawn = true;
+        attributeData = new AttributeData();
+    }
+
     public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
         Entity entity = world.spawnEntity(location, entityType);
         applyAttributes(entity);
