@@ -15,6 +15,7 @@ public class EntityDataRegistry {
         registerEntityData(EntityType.AXOLOTL, AxolotlData::new);
         registerEntityData(EntityType.CREEPER, CreeperData::new);
         registerEntityData(EntityType.DROPPED_ITEM, DroppedItemData::new);
+        registerEntityData(EntityType.EXPERIENCE_ORB, ExperienceOrbData::new);
         registerEntityData(EntityType.FALLING_BLOCK, FallingBlockData::new);
         registerEntityData(EntityType.HORSE, HorseData::new);
         registerEntityData(EntityType.SKELETON_HORSE, HorseData::new);
