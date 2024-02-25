@@ -18,7 +18,7 @@ public class LivingEntityData extends EntityData {
         super(configurationSection);
         if (configurationSection.contains("extra")) {
             configurationSection = configurationSection.getConfigurationSection("extra");
-            ConfigurationData.getLogger().severe("Deprecation warning at '" + configurationSection.getCurrentPath() + "', the contents of the 'extra' section should now be placed in the root of the entity section");
+            ConfigurationData.getLogger().severe("Deprecated: The contents of the 'extra' section at '" + configurationSection.getCurrentPath() + "' should now be placed in the root of the entity section");
         }
 
         canEquip = configurationSection.getBoolean("canEquip", false);
