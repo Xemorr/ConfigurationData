@@ -24,7 +24,7 @@ public class EntityData {
     private String nameTag;
     protected final AttributeData attributeData;
     protected EntityData passengerData;
-    protected final List<EntityAttributeData> attributes = new ArrayList<>();
+    protected final List<EntityAttributeData> entitySpecificAttributes = new ArrayList<>();
 
     protected EntityData(ConfigurationSection configurationSection) {
         ConfigurationSection rootSection = configurationSection.getName().equals("extra") ? configurationSection.getParent() : configurationSection;
@@ -52,22 +52,22 @@ public class EntityData {
 
         // Entity attributes are ordered alphabetically
         if (Ageable.class.isAssignableFrom(entityClass)) {
-            attributes.add(new BabyData(configurationSection));
+            entitySpecificAttributes.add(new BabyData(configurationSection));
         }
         if (Colorable.class.isAssignableFrom(entityClass)) {
-            attributes.add(new ColorableData(configurationSection));
+            entitySpecificAttributes.add(new ColorableData(configurationSection));
         }
         if (Explosive.class.isAssignableFrom(entityClass)) {
-            attributes.add(new ExplosiveData(configurationSection));
+            entitySpecificAttributes.add(new ExplosiveData(configurationSection));
         }
         if (Slime.class.isAssignableFrom(entityClass) || Phantom.class.isAssignableFrom(entityClass)) {
-            attributes.add(new SizeData(configurationSection));
+            entitySpecificAttributes.add(new SizeData(configurationSection));
         }
         if (ThrowableProjectile.class.isAssignableFrom(entityClass)) {
-            attributes.add(new ThrowableProjectileData(configurationSection));
+            entitySpecificAttributes.add(new ThrowableProjectileData(configurationSection));
         }
         if (Hoglin.class.isAssignableFrom(entityClass) || PiglinAbstract.class.isAssignableFrom(entityClass)) {
-            attributes.add(new ZombifiableData(configurationSection));
+            entitySpecificAttributes.add(new ZombifiableData(configurationSection));
         }
     }
 
@@ -86,7 +86,7 @@ public class EntityData {
     public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
         Entity entity = world.spawnEntity(location, entityType);
         applyAttributes(entity);
-        attributes.forEach(attributeData -> attributeData.apply(entity));
+        entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
         return entity;
     }
 
