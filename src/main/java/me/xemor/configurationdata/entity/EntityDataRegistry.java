@@ -22,6 +22,7 @@ public class EntityDataRegistry {
         registerEntityData(EntityType.SKELETON_HORSE, HorseData::new);
         registerEntityData(EntityType.ZOMBIE_HORSE, HorseData::new);
         registerEntityData(EntityType.LLAMA, LlamaData::new);
+        registerEntityData(EntityType.PRIMED_TNT, PrimedTntData::new);
         registerEntityData(EntityType.SPECTRAL_ARROW, SpectralArrowData::new);
         registerEntityData(EntityType.SPLASH_POTION, PotionEntityData::new);
         registerEntityData(EntityType.RABBIT, RabbitData::new);
