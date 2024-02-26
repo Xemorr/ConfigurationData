@@ -57,6 +57,9 @@ public class EntityData {
         if (Colorable.class.isAssignableFrom(entityClass)) {
             attributes.add(new ColorableData(configurationSection));
         }
+        if (Explosive.class.isAssignableFrom(entityClass)) {
+            attributes.add(new ExplosiveData(configurationSection));
+        }
         if (Slime.class.isAssignableFrom(entityClass) || Phantom.class.isAssignableFrom(entityClass)) {
             attributes.add(new SizeData(configurationSection));
         }
