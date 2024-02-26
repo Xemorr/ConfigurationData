@@ -12,6 +12,7 @@ public class EntityDataRegistry {
     private static final ConcurrentHashMap<EntityType, EntityDataConstructor> entityTypeToDataClass = new ConcurrentHashMap<>();
 
     static {
+        registerEntityData(EntityType.ARROW, ArrowData::new);
         registerEntityData(EntityType.AXOLOTL, AxolotlData::new);
         registerEntityData(EntityType.CREEPER, CreeperData::new);
         registerEntityData(EntityType.DROPPED_ITEM, DroppedItemData::new);
@@ -20,8 +21,10 @@ public class EntityDataRegistry {
         registerEntityData(EntityType.HORSE, HorseData::new);
         registerEntityData(EntityType.SKELETON_HORSE, HorseData::new);
         registerEntityData(EntityType.ZOMBIE_HORSE, HorseData::new);
+        registerEntityData(EntityType.SPECTRAL_ARROW, SpectralArrowData::new);
         registerEntityData(EntityType.SPLASH_POTION, PotionEntityData::new);
         registerEntityData(EntityType.RABBIT, RabbitData::new);
+        registerEntityData(EntityType.TRIDENT, AbstractArrowData::new);
         registerEntityData(EntityType.WITHER_SKULL, WitherSkullData::new);
         registerEntityData(EntityType.WOLF, WolfData::new);
     }
