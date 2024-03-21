@@ -1,4 +1,4 @@
-package me.xemor.configurationdata.entity;
+package me.xemor.configurationdata;
 
 import me.xemor.configurationdata.ItemStackData;
 import org.bukkit.Material;

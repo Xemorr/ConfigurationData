@@ -1,22 +1,22 @@
-package me.xemor.configurationdata.entity;
+package me.xemor.configurationdata.entity.attribute;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Hoglin;
 import org.bukkit.entity.PiglinAbstract;
-import org.bukkit.entity.Zombie;
 
-public class ZombifiableData extends ExtraData {
+public class ZombifiableData extends EntityAttributeData {
 
-    private boolean immuneToZombification;
+    private final boolean immuneToZombification;
 
     public ZombifiableData(ConfigurationSection configurationSection) {
         super(configurationSection);
-        immuneToZombification = !configurationSection.getBoolean("isZombifiable", true);
+
+        immuneToZombification = configurationSection.getBoolean("isZombifiable", false);
     }
 
     @Override
-    public void applyData(Entity entity) {
+    public void apply(Entity entity) {
         if (entity instanceof PiglinAbstract) {
             PiglinAbstract piglinAbstract = (PiglinAbstract) entity;
             piglinAbstract.setImmuneToZombification(immuneToZombification);

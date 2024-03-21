@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 
-public class CreeperData extends ExtraData {
+public class CreeperData extends LivingEntityData {
 
     private final int fuse;
     private final boolean ignite;
@@ -13,6 +13,7 @@ public class CreeperData extends ExtraData {
 
     public CreeperData(ConfigurationSection configurationSection) {
         super(configurationSection);
+
         fuse = configurationSection.getInt("fuse", 30);
         ignite = configurationSection.getBoolean("ignited", false);
         explosionRadius = configurationSection.getInt("explosionRadius", 3);
@@ -20,7 +21,9 @@ public class CreeperData extends ExtraData {
     }
 
     @Override
-    public void applyData(Entity entity) {
+    public void applyAttributes(Entity entity) {
+        super.applyAttributes(entity);
+
         Creeper creeper = (Creeper) entity;
         creeper.setMaxFuseTicks(fuse);
         creeper.setPowered(powered);
