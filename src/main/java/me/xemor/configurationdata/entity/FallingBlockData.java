@@ -22,7 +22,8 @@ public class FallingBlockData extends EntityData {
     public FallingBlockData(ConfigurationSection configurationSection) {
         super(configurationSection);
 
-        blockData = configurationSection.contains("block") ? new BlockDataData(configurationSection).getBlockData() : Material.STONE.createBlockData();
+        ConfigurationSection blockSection = configurationSection.getConfigurationSection("block");
+        blockData = blockSection != null ? new BlockDataData(blockSection).getBlockData() : Material.STONE.createBlockData();
         dropItem = configurationSection.getBoolean("dropItem", true);
         cancelDrop = configurationSection.getBoolean("cancelDrop");
         hurtEntities = configurationSection.getBoolean("hurtEntities");
