@@ -27,11 +27,11 @@ public class LivingEntityData extends EntityData {
         super.applyAttributes(entity);
 
         LivingEntity livingEntity = (LivingEntity) entity;
-        livingEntity.setRemoveWhenFarAway(shouldDespawn);
+        livingEntity.setRemoveWhenFarAway(shouldDespawn());
         livingEntity.setCanPickupItems(canEquip);
         applyEquipment(livingEntity);
-        attributeData.applyAttributes(livingEntity);
-        livingEntity.setHealth(attributeData.getValue(livingEntity, Attribute.GENERIC_MAX_HEALTH));
+        getAttributeData().applyAttributes(livingEntity);
+        livingEntity.setHealth(getAttributeData().getValue(livingEntity, Attribute.GENERIC_MAX_HEALTH));
     }
 
     public final void applyEquipment(LivingEntity livingEntity) {
