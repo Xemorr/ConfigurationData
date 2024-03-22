@@ -35,7 +35,7 @@ public class FallingBlockData extends EntityData {
     public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
         Entity entity = world.spawnFallingBlock(location, blockData);
         applyAttributes(entity);
-        entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
+        getEntitySpecificAttributes().forEach(attributeData -> attributeData.apply(entity));
         return entity;
     }
 
