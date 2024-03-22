@@ -71,12 +71,6 @@ public class EntityData {
         }
     }
 
-    private EntityData() {
-        entityType = EntityType.ZOMBIE;
-        shouldDespawn = true;
-        attributeData = new AttributeData();
-    }
-
     private EntityData(EntityType entityType) {
         this.entityType = entityType;
         shouldDespawn = true;
@@ -120,10 +114,6 @@ public class EntityData {
 
     public List<EntityAttributeData> getEntitySpecificAttributes() {
         return entitySpecificAttributes;
-    }
-
-    public static EntityData create() {
-        return new EntityData();
     }
 
     public static EntityData create(EntityType entityType) {
