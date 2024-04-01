@@ -11,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +19,12 @@ import java.util.List;
 public class EntityData {
     protected final static LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
-    protected final EntityType entityType;
-    protected final boolean shouldDespawn;
+    private final EntityType entityType;
+    private final boolean shouldDespawn;
     private String nameTag;
-    protected final AttributeData attributeData;
-    protected EntityData passengerData;
-    protected final List<EntityAttributeData> entitySpecificAttributes = new ArrayList<>();
+    private final AttributeData attributeData;
+    private EntityData passengerData;
+    private final List<EntityAttributeData> entitySpecificAttributes = new ArrayList<>();
 
     protected EntityData(ConfigurationSection configurationSection) {
         ConfigurationSection rootSection = configurationSection.getName().equals("extra") ? configurationSection.getParent() : configurationSection;
@@ -72,13 +71,7 @@ public class EntityData {
         }
     }
 
-    public EntityData() {
-        entityType = EntityType.ZOMBIE;
-        shouldDespawn = true;
-        attributeData = new AttributeData();
-    }
-
-    public EntityData(EntityType entityType) {
+    private EntityData(EntityType entityType) {
         this.entityType = entityType;
         shouldDespawn = true;
         attributeData = new AttributeData();
@@ -103,6 +96,14 @@ public class EntityData {
         }
     }
 
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public boolean shouldDespawn() {
+        return shouldDespawn;
+    }
+
     public String getNameTag() {
         return nameTag;
     }
@@ -111,11 +112,19 @@ public class EntityData {
         return attributeData;
     }
 
-    public static EntityData create(ConfigurationSection configurationSection, @Nullable EntityType def) {
-        if (def == null) {
-            def = EntityType.ZOMBIE;
-        }
+    public List<EntityAttributeData> getEntitySpecificAttributes() {
+        return entitySpecificAttributes;
+    }
 
+    public static EntityData create(EntityType entityType) {
+        return new EntityData(entityType);
+    }
+
+    public static EntityData create(ConfigurationSection configurationSection) {
+        return create(configurationSection, EntityType.ZOMBIE);
+    }
+
+    public static EntityData create(ConfigurationSection configurationSection, @NotNull EntityType def) {
         String entityTypeRaw = configurationSection.getString("type");
         EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
 
@@ -126,9 +135,5 @@ public class EntityData {
 
         EntityDataRegistry.EntityDataConstructor entityDataConstructor = EntityDataRegistry.getConstructor(entityType);
         return entityDataConstructor != null ? entityDataConstructor.apply(configurationSection) : null;
-    }
-
-    public static EntityData create(ConfigurationSection configurationSection) {
-        return create(configurationSection, null);
     }
 }
