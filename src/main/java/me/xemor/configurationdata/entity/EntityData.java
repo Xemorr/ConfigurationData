@@ -77,8 +77,8 @@ public class EntityData {
         attributeData = new AttributeData();
     }
 
-    public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
-        Entity entity = world.spawnEntity(location, entityType);
+    public Entity spawnEntity(@NotNull Location location) {
+        Entity entity = location.getWorld().spawnEntity(location, entityType);
         applyAttributes(entity);
         entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
         return entity;
@@ -91,7 +91,7 @@ public class EntityData {
 
         entity.setPersistent(!shouldDespawn);
         if (passengerData != null) {
-            Entity passenger = passengerData.spawnEntity(entity.getWorld(), entity.getLocation());
+            Entity passenger = passengerData.spawnEntity(entity.getLocation());
             entity.addPassenger(passenger);
         }
     }
