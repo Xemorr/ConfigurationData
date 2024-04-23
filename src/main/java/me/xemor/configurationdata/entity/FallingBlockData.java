@@ -3,7 +3,6 @@ package me.xemor.configurationdata.entity;
 import me.xemor.configurationdata.BlockDataData;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
