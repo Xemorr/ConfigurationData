@@ -34,6 +34,18 @@ public class AttributeData {
         }
     }
 
+    public void resetAttributes(LivingEntity livingEntity) {
+        for (Attribute attribute : Attribute.values()) {
+            AttributeInstance instance = livingEntity.getAttribute(attribute);
+            if (instance != null) {
+                AttributeInstance attributeInstance = livingEntity.getAttribute(attribute);
+                if (attributeInstance != null) {
+                    instance.setBaseValue(attributeInstance.getDefaultValue());
+                }
+            }
+        }
+    }
+
     public double getValue(LivingEntity livingEntity, Attribute attribute) {
         double value = attributeToValue.getOrDefault(attribute, -1D);
         if (value == -1) {
