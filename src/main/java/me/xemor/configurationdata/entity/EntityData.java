@@ -37,7 +37,7 @@ public class EntityData {
         nameTag = rootSection.contains("nametag") ? LEGACY_SERIALIZER.serialize(MiniMessage.miniMessage().deserialize(rootSection.getString("nametag"))) : null;
         customNameVisible = rootSection.getBoolean("customNameVisible", true);
         silent = rootSection.getBoolean("silent");
-        visualFire = rootSection.getBoolean("visualFire", true);
+        visualFire = rootSection.getBoolean("visualFire");
         
         ConfigurationSection attributeSection = rootSection.getConfigurationSection("attributes");
         attributeData = attributeSection != null ? new AttributeData(attributeSection) : new AttributeData();
