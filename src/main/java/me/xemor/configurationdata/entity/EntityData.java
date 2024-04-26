@@ -6,7 +6,6 @@ import me.xemor.configurationdata.entity.attribute.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
@@ -21,7 +20,10 @@ public class EntityData {
 
     private final EntityType entityType;
     private final boolean shouldDespawn;
-    private String nameTag;
+    private final String nameTag;
+    private final boolean customNameVisible;
+    private final boolean silent;
+    private final boolean visualFire;
     private final AttributeData attributeData;
     private EntityData passengerData;
     private final List<EntityAttributeData> entitySpecificAttributes = new ArrayList<>();
@@ -32,10 +34,10 @@ public class EntityData {
         entityType = EntityType.valueOf(rootSection.getString("type", "ZOMBIE").toUpperCase());
         shouldDespawn = rootSection.getBoolean("shouldDespawn", true);
 
-        nameTag = rootSection.getString("nametag");
-        if (nameTag != null) {
-            nameTag = LEGACY_SERIALIZER.serialize(MiniMessage.miniMessage().deserialize(nameTag));
-        }
+        nameTag = rootSection.contains("nametag") ? LEGACY_SERIALIZER.serialize(MiniMessage.miniMessage().deserialize(rootSection.getString("nametag"))) : null;
+        customNameVisible = rootSection.getBoolean("customNameVisible", true);
+        silent = rootSection.getBoolean("silent");
+        visualFire = rootSection.getBoolean("visualFire");
         
         ConfigurationSection attributeSection = rootSection.getConfigurationSection("attributes");
         attributeData = attributeSection != null ? new AttributeData(attributeSection) : new AttributeData();
@@ -73,7 +75,13 @@ public class EntityData {
 
     private EntityData(EntityType entityType) {
         this.entityType = entityType;
+
+        nameTag = null;
         shouldDespawn = true;
+        customNameVisible = true;
+        silent = false;
+        visualFire = true;
+
         attributeData = new AttributeData();
     }
 
@@ -89,7 +97,11 @@ public class EntityData {
             entity.setCustomName(nameTag);
         }
 
+        entity.setCustomNameVisible(customNameVisible);
         entity.setPersistent(!shouldDespawn);
+        entity.setSilent(silent);
+        entity.setVisualFire(visualFire);
+
         if (passengerData != null) {
             Entity passenger = passengerData.spawnEntity(entity.getLocation());
             entity.addPassenger(passenger);
