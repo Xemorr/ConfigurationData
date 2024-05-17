@@ -40,7 +40,7 @@ public class EntityData {
         visualFire = rootSection.getBoolean("visualFire");
         
         ConfigurationSection attributeSection = rootSection.getConfigurationSection("attributes");
-        attributeData = attributeSection != null ? new AttributeData(attributeSection) : new AttributeData();
+        attributeData = attributeSection != null ? new AttributeData(attributeSection, configurationSection.getCurrentPath()) : new AttributeData();
         
         ConfigurationSection passengerSection = rootSection.getConfigurationSection("passenger");
         if (passengerSection != null) {
