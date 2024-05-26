@@ -6,6 +6,7 @@ import me.xemor.configurationdata.entity.attribute.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
@@ -86,7 +87,11 @@ public class EntityData {
     }
 
     public Entity spawnEntity(@NotNull Location location) {
-        Entity entity = location.getWorld().spawnEntity(location, entityType);
+        return spawnEntity(location.getWorld(), location);
+    }
+
+    public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
+        Entity entity = world.spawnEntity(location, entityType);
         applyAttributes(entity);
         entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
         return entity;
