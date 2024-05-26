@@ -87,11 +87,7 @@ public class EntityData {
     }
 
     public Entity spawnEntity(@NotNull Location location) {
-        return spawnEntity(location.getWorld(), location);
-    }
-
-    public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
-        Entity entity = world.spawnEntity(location, entityType);
+        Entity entity = location.getWorld().spawnEntity(location, entityType);
         applyAttributes(entity);
         entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
         return entity;
