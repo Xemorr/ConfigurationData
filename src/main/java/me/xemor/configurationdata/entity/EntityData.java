@@ -35,7 +35,7 @@ public class EntityData {
         shouldDespawn = rootSection.getBoolean("shouldDespawn", true);
 
         nameTag = rootSection.contains("nametag") ? LEGACY_SERIALIZER.serialize(MiniMessage.miniMessage().deserialize(rootSection.getString("nametag"))) : null;
-        customNameVisible = rootSection.getBoolean("customNameVisible", true);
+        customNameVisible = rootSection.getBoolean("customNameVisible", false);
         silent = rootSection.getBoolean("silent");
         visualFire = rootSection.getBoolean("visualFire");
         
