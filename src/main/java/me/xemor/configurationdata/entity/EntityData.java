@@ -157,8 +157,9 @@ public class EntityData {
 
     public static EntityData create(ConfigurationSection configurationSection, @NotNull EntityType def) {
         String entityTypeRaw = configurationSection.getString("type");
+        EntityType entityType;
         try {
-            EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
+            entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
         } catch(IllegalArgumentException e) {
             ConfigurationData.getLogger().severe("'" + entityTypeRaw + "' at " + configurationSection.getCurrentPath() + ".entity is not a valid entity.");
             return null;
