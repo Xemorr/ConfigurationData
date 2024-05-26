@@ -6,7 +6,6 @@ import me.xemor.configurationdata.entity.attribute.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
@@ -87,11 +86,7 @@ public class EntityData {
     }
 
     public Entity spawnEntity(@NotNull Location location) {
-        return spawnEntity(location.getWorld(), location);
-    }
-
-    public Entity spawnEntity(@NotNull World world, @NotNull Location location) {
-        Entity entity = world.spawnEntity(location, entityType);
+        Entity entity = location.getWorld().spawnEntity(location, entityType);
         applyAttributes(entity);
         entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
         return entity;
@@ -141,29 +136,9 @@ public class EntityData {
         return create(configurationSection, EntityType.ZOMBIE);
     }
 
-    public static EntityData create(ConfigurationSection parentSection, String path, @NotNull EntityType def) {
-        if (parentSection.isString(path)) {
-            try {
-                return EntityData.create(EntityType.valueOf(parentSection.getString(path)));
-            } catch(IllegalArgumentException e) {
-                ConfigurationData.getLogger().severe("'" + parentSection.getString(path) + "' at " + parentSection.getCurrentPath() + "." + path + " is not a valid entity.");
-                return null;
-            }
-        } else {
-            ConfigurationSection entitySection = parentSection.getConfigurationSection(path);
-            return entitySection != null ? create(parentSection, def) : EntityData.create(def);
-        }
-    }
-
     public static EntityData create(ConfigurationSection configurationSection, @NotNull EntityType def) {
         String entityTypeRaw = configurationSection.getString("type");
-        EntityType entityType;
-        try {
-            entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
-        } catch(IllegalArgumentException e) {
-            ConfigurationData.getLogger().severe("'" + entityTypeRaw + "' at " + configurationSection.getCurrentPath() + ".entity is not a valid entity.");
-            return null;
-        }
+        EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
 
         if (configurationSection.contains("extra")) {
             configurationSection = configurationSection.getConfigurationSection("extra");
