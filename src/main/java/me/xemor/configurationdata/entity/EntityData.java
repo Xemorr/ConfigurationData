@@ -136,6 +136,15 @@ public class EntityData {
         return create(configurationSection, EntityType.ZOMBIE);
     }
 
+    public static EntityData create(ConfigurationSection parentSection, String path, @NotNull EntityType def) {
+        if (parentSection.isString(path)) {
+            return EntityData.create(EntityType.valueOf(parentSection.getString(path)));
+        } else {
+            ConfigurationSection entitySection = parentSection.getConfigurationSection(path);
+            return entitySection != null ? create(parentSection, def) : EntityData.create(def);
+        }
+    }
+
     public static EntityData create(ConfigurationSection configurationSection, @NotNull EntityType def) {
         String entityTypeRaw = configurationSection.getString("type");
         EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
