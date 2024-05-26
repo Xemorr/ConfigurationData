@@ -143,7 +143,12 @@ public class EntityData {
 
     public static EntityData create(ConfigurationSection parentSection, String path, @NotNull EntityType def) {
         if (parentSection.isString(path)) {
-            return EntityData.create(EntityType.valueOf(parentSection.getString(path)));
+            try {
+                return EntityData.create(EntityType.valueOf(parentSection.getString(path)));
+            } catch(IllegalArgumentException e) {
+                ConfigurationData.getLogger().severe("'" + parentSection.getString(path) + "' at " + parentSection.getCurrentPath() + "." + path + " is not a valid entity.");
+                return null;
+            }
         } else {
             ConfigurationSection entitySection = parentSection.getConfigurationSection(path);
             return entitySection != null ? create(parentSection, def) : EntityData.create(def);
@@ -152,7 +157,12 @@ public class EntityData {
 
     public static EntityData create(ConfigurationSection configurationSection, @NotNull EntityType def) {
         String entityTypeRaw = configurationSection.getString("type");
-        EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
+        try {
+            EntityType entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
+        } catch(IllegalArgumentException e) {
+            ConfigurationData.getLogger().severe("'" + entityTypeRaw + "' at " + configurationSection.getCurrentPath() + ".entity is not a valid entity.");
+            return null;
+        }
 
         if (configurationSection.contains("extra")) {
             configurationSection = configurationSection.getConfigurationSection("extra");
