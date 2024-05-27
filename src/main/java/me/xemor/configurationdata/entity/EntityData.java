@@ -147,7 +147,7 @@ public class EntityData {
             }
         } else {
             ConfigurationSection entitySection = parentSection.getConfigurationSection(path);
-            return entitySection != null ? create(parentSection, def) : EntityData.create(def);
+            return entitySection != null ? create(entitySection, def) : EntityData.create(def);
         }
     }
 
