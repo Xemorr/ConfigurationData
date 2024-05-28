@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.ItemStackData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -11,8 +12,13 @@ public class DroppedItemData extends EntityData {
 
     public DroppedItemData(ConfigurationSection configurationSection) {
         super(configurationSection);
-
-        stackData = new ItemStackData(configurationSection);
+        ConfigurationSection itemSection = configurationSection.getConfigurationSection("item");
+        if (itemSection == null) {
+            ConfigurationData.getLogger().warning("Deprecated: " + configurationSection.getCurrentPath() + " has item properties, that are not within an item section! Please indent these within an item section.");
+            stackData = new ItemStackData(configurationSection);
+        } else {
+            stackData = new ItemStackData(itemSection);
+        }
     }
 
     @Override
