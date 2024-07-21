@@ -1,6 +1,5 @@
 package me.xemor.configurationdata;
 
-import org.apache.commons.collections4.EnumerationUtils;
 import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.meta.ArmorMeta;
