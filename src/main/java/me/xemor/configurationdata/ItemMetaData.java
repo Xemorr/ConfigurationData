@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemFactory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -62,6 +63,15 @@ public class ItemMetaData {
         if (trimSection != null) {
             TrimData trimData = new TrimData(trimSection);
             trimData.applyTrim(itemMeta);
+        }
+
+        List<String> flags = configurationSection.getStringList("flags");
+        for (String flagStr : flags) {
+            try {
+                baseMeta.addItemFlags(ItemFlag.valueOf(flagStr));
+            } catch (IllegalArgumentException e) {
+                ConfigurationData.getLogger().severe("Invalid ItemFlag Entered " + flagStr + " at: " + configurationSection.getCurrentPath() + ".flags");
+            }
         }
 
         handleLeatherArmor(configurationSection, itemMeta);
