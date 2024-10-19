@@ -1,5 +1,6 @@
 package me.xemor.configurationdata;
 
+import me.sepdron.headcreator.HeadCreator;
 import me.xemor.configurationdata.comparison.ItemMetaComparisonData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,6 +78,7 @@ public class ItemMetaData {
 
         handleLeatherArmor(configurationSection, itemMeta);
         handleBooks(configurationSection, itemMeta);
+        handleSkulls(configurationSection, itemMeta);
     }
 
     public void handleLeatherArmor(ConfigurationSection section, ItemMeta meta) {
@@ -105,6 +108,13 @@ public class ItemMetaData {
             bookMeta.setPages(pages);
             bookMeta.setTitle(title);
         }
+    }
+
+    public void handleSkulls(ConfigurationSection section, ItemMeta meta) {
+        if (!(meta instanceof SkullMeta skullMeta)) return;
+        String base64Skin = section.getString("base64Skin");
+        if (base64Skin == null) return;
+        HeadCreator.setBase64Skin(skullMeta, base64Skin);
     }
 
     public ItemMeta getItemMeta() {

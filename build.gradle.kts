@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "3.4.3-SNAPSHOT"
+version = "3.5.0-SNAPSHOT"
 description = "configurationdata"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -22,6 +22,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:20.1.0")
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.14.0")
+    implementation("me.sepdron:HeadCreator:2.1.0")
 }
 
 publishing {
