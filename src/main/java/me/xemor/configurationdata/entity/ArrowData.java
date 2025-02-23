@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -8,7 +9,8 @@ import org.bukkit.potion.PotionType;
 
 public class ArrowData extends AbstractArrowData {
 
-    private final PotionData potionData;
+    private PotionType potionType;
+    private PotionData potionData;
 
     public ArrowData(ConfigurationSection configurationSection) {
         super(configurationSection);
@@ -16,13 +18,18 @@ public class ArrowData extends AbstractArrowData {
         ConfigurationSection potionSection = configurationSection.getConfigurationSection("potion");
         if (potionSection != null) {
             PotionType type = PotionType.valueOf(potionSection.getString("type", "UNCRAFTABLE"));
-            boolean extended = potionSection.getBoolean("extended");
-            boolean upgraded = potionSection.getBoolean("upgraded");
-
-            potionData = new PotionData(type, extended, upgraded);
+            if (getMinorVersion() <= 21 || potionSection.contains("extended")) {
+                boolean extended = potionSection.getBoolean("extended");
+                boolean upgraded = potionSection.getBoolean("upgraded");
+                potionData = new PotionData(type, extended, upgraded);
+            }
         } else {
             potionData = null;
         }
+    }
+
+    public int getMinorVersion() {
+        return Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("-")[0].split("\\.")[1]);
     }
 
     @Override
@@ -30,8 +37,11 @@ public class ArrowData extends AbstractArrowData {
         super.applyAttributes(entity);
 
         Arrow arrow = (Arrow) entity;
-        if (potionData != null) {
+        if (potionData != null && getMinorVersion() <= 21 && potionData != null) {
             arrow.setBasePotionData(potionData);
+        }
+        else {
+            arrow.setBasePotionType(potionType);
         }
     }
 }

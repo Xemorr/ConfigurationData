@@ -13,12 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Attr;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class AttributeData {
 
-    private final EnumMap<Attribute, AttributeModifier> attributeToValue = new EnumMap<>(Attribute.class);
+    private final Map<Attribute, AttributeModifier> attributeToValue = new HashMap<>();
     private final String name;
 
     public AttributeData(ConfigurationSection configurationSection, @NotNull String name) {

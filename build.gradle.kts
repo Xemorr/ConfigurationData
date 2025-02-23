@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "3.4.3-SNAPSHOT"
+version = "3.5.1-SNAPSHOT"
 description = "configurationdata"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:20.1.0")
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.14.0")

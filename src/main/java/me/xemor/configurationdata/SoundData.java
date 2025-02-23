@@ -1,5 +1,6 @@
 package me.xemor.configurationdata;
 
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -10,7 +11,7 @@ public class SoundData {
     private float pitch;
 
     public SoundData(ConfigurationSection configurationSection) {
-        sound = Sound.valueOf(configurationSection.getString("sound", "ENTITY_GENERIC_EXPLODE").toUpperCase());
+        sound = Registry.SOUNDS.match(configurationSection.getString("sound", "ENTITY_GENERIC_EXPLODE").toUpperCase());
         volume = (float) configurationSection.getDouble("volume", 1.0);
         pitch = (float) configurationSection.getDouble("pitch", 1.0);
     }

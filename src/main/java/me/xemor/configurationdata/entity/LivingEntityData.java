@@ -31,7 +31,7 @@ public class LivingEntityData extends EntityData {
         livingEntity.setCanPickupItems(canEquip);
         applyEquipment(livingEntity);
         getAttributeData().applyAttributes(livingEntity);
-        livingEntity.setHealth(getAttributeData().getValue(livingEntity, Attribute.GENERIC_MAX_HEALTH));
+        livingEntity.setHealth(getAttributeData().getValue(livingEntity, Attribute.MAX_HEALTH));
     }
 
     public final void applyEquipment(LivingEntity livingEntity) {

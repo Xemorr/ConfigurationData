@@ -1,5 +1,6 @@
 package me.xemor.configurationdata;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
@@ -9,12 +10,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class ItemAttributeData {
 
-    EnumMap<Attribute, AttributeModifier> attributeToValue = new EnumMap<>(Attribute.class);
+    Map<Attribute, AttributeModifier> attributeToValue = new HashMap<>();
 
     public ItemAttributeData(ConfigurationSection configurationSection) {
         Attribute[] attributes = Attribute.values();
@@ -28,7 +30,12 @@ public class ItemAttributeData {
                 double value = attributeSection.getDouble("value", 0);
                 EquipmentSlot equipmentSlot = EquipmentSlot.valueOf(attributeSection.getString("equipmentslot", "HAND"));
                 AttributeModifier.Operation operation = AttributeModifier.Operation.valueOf(attributeSection.getString("operation", "ADD_NUMBER"));
-                AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ConfigurationData Attribute", value, operation, equipmentSlot);
+                AttributeModifier attributeModifier = new AttributeModifier(
+                        new NamespacedKey(ConfigurationData.getPlugin(), UUID.randomUUID().toString()),
+                        value,
+                        operation,
+                        equipmentSlot.getGroup()
+                );
                 attributeToValue.put(attribute, attributeModifier);
             }
         }
