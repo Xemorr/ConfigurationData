@@ -26,6 +26,6 @@ public class DroppedItemData extends EntityData {
         super.applyAttributes(entity);
 
         Item droppedItem = (Item) entity;
-        droppedItem.setItemStack(stackData.getItem());
+        droppedItem.setItemStack(stackData.item());
     }
 }

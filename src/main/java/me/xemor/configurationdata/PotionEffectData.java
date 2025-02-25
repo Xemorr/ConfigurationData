@@ -1,5 +1,6 @@
 package me.xemor.configurationdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -8,37 +9,34 @@ import java.util.Optional;
 
 public class PotionEffectData {
 
-    private PotionEffect potionEffect = null;
+    @JsonProperty
+    private PotionEffectType type;
+    @JsonProperty
+    private double duration = 5;
+    @JsonProperty
+    private int potency = 0;
+    @JsonProperty
+    private boolean ambient = true;
+    @JsonProperty
+    private boolean hasParticles = true;
 
-    public PotionEffectData(ConfigurationSection configurationSection) {
-        PotionEffectType potionType = PotionEffectType.getByName(configurationSection.getString("type", "d").toUpperCase());
-        if (potionType == null) {
-            ConfigurationData.getLogger().severe("Invalid potion effect type specified at " + configurationSection.getCurrentPath() + ".type");
-            return;
-        }
-        int potency = configurationSection.getInt("potency");
-        if (potency > 0) {
-            potency--;
-        }
-        boolean ambient = configurationSection.getBoolean("ambient", true);
-        boolean hasParticles = configurationSection.getBoolean("hasParticles", true);
-        double duration = configurationSection.getDouble("duration", 5);
-        createPotion(potionType, duration, potency, ambient, hasParticles);
+    public PotionEffectData() {
+        if (potency > 0) potency--;
     }
 
-    public Optional<PotionEffect> getPotionEffect() {
-        return Optional.ofNullable(potionEffect);
+    public PotionEffect getPotionEffect() {
+        return createPotion();
     }
 
-    protected void createPotion(PotionEffectType type, double duration, int potency, boolean ambient, boolean hasParticles) {
+    private PotionEffect createPotion() {
         if (type.isInstant()) {
-            potionEffect = new PotionEffect(type, 1, potency, ambient, hasParticles);
+            return new PotionEffect(type, 1, potency, ambient, hasParticles);
         }
         else if (duration != 0) {
-            potionEffect = new PotionEffect(type, (int) Math.round(duration * 20), potency, ambient, hasParticles);
+            return new PotionEffect(type, (int) Math.round(duration * 20), potency, ambient, hasParticles);
         }
         else {
-            potionEffect = new PotionEffect(type, Integer.MAX_VALUE, potency, ambient, hasParticles);
+            return new PotionEffect(type, Integer.MAX_VALUE, potency, ambient, hasParticles);
         }
     }
 

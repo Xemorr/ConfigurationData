@@ -17,7 +17,7 @@ public class PotionEntityData extends EntityData {
 
         ConfigurationSection potionSection = configurationSection.getConfigurationSection("potion");
         if (potionSection != null) {
-            potion = new ItemStackData(potionSection).getItem();
+            potion = new ItemStackData(potionSection).item();
         }
         else {
             ConfigurationData.getLogger().warning("There was no extra data specified for Potion. " + configurationSection.getCurrentPath());

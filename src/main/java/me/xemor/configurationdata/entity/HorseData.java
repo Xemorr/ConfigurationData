@@ -31,7 +31,7 @@ public class HorseData extends LivingEntityData {
 
         ConfigurationSection armorSection = configurationSection.getConfigurationSection("armorSection");
         if (armorSection != null) {
-            armor = new ItemStackData(armorSection).getItem();
+            armor = new ItemStackData(armorSection).item();
         }
 
         hasSaddle = configurationSection.getBoolean("hasSaddle", false);

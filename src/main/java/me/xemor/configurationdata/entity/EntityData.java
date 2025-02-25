@@ -1,12 +1,11 @@
 package me.xemor.configurationdata.entity;
 
-import me.xemor.configurationdata.AttributeData;
+import me.xemor.configurationdata.AttributesData;
 import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.entity.attribute.*;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
@@ -25,7 +24,7 @@ public class EntityData {
     private final boolean customNameVisible;
     private final boolean silent;
     private final boolean visualFire;
-    private final AttributeData attributeData;
+    private final AttributesData attributesData;
     private EntityData passengerData;
     private final List<EntityAttributeData> entitySpecificAttributes = new ArrayList<>();
 
@@ -41,7 +40,7 @@ public class EntityData {
         visualFire = rootSection.getBoolean("visualFire");
         
         ConfigurationSection attributeSection = rootSection.getConfigurationSection("attributes");
-        attributeData = attributeSection != null ? new AttributeData(attributeSection, configurationSection.getCurrentPath()) : new AttributeData();
+        attributesData = attributeSection != null ? new AttributesData(attributeSection, configurationSection.getCurrentPath()) : new AttributesData();
         
         ConfigurationSection passengerSection = rootSection.getConfigurationSection("passenger");
         if (passengerSection != null) {
@@ -83,7 +82,7 @@ public class EntityData {
         silent = false;
         visualFire = true;
 
-        attributeData = new AttributeData();
+        attributesData = new AttributesData();
     }
 
     public Entity spawnEntity(@NotNull Location location) {
@@ -121,8 +120,8 @@ public class EntityData {
         return nameTag;
     }
 
-    public AttributeData getAttributeData() {
-        return attributeData;
+    public AttributesData getAttributeData() {
+        return attributesData;
     }
 
     public List<EntityAttributeData> getEntitySpecificAttributes() {

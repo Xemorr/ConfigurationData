@@ -1,10 +1,17 @@
 package me.xemor.configurationdata.comparison;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,9 +22,8 @@ public class LoreData {
     private final List<Pattern> patternLore;
     private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
-
-    public LoreData(String variable, ConfigurationSection configurationSection) {
-        patternLore = configurationSection.getStringList(variable)
+    public LoreData(List<String> lore) {
+        patternLore = lore
                 .stream()
                 .map(string -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(string)))
                 .map(Pattern::compile)
@@ -40,6 +46,19 @@ public class LoreData {
             if (!pattern.matcher(line).matches()) return false;
         }
         return true;
+    }
+
+    public static class LoreDataDeserializer extends JsonDeserializer<LoreData> {
+        @Override
+        public LoreData deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
+            List<String> lore = new ArrayList<>();
+            JsonNode node = jsonParser.readValueAsTree();
+            for (JsonNode element : node) {
+                String value = jsonParser.getCodec().treeToValue(element, String.class);
+                lore.add(value);
+            }
+            return new LoreData(lore);
+        }
     }
 
 }

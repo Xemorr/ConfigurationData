@@ -1,5 +1,7 @@
 package me.xemor.configurationdata.comparison;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
@@ -9,25 +11,24 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class ItemMetaComparisonData {
-
-    private final Pattern displayName;
-    private final LoreData lore;
-    private EnchantComparisonData enchantComparisonData = null;
+public record ItemMetaComparisonData(Pattern displayName, LoreData lore, EnchantComparisonData enchantComparisonData) {
 
     private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
-
-    public ItemMetaComparisonData(ConfigurationSection configurationSection) {
-        displayName = Pattern.compile(legacySerializer.serialize(MiniMessage.miniMessage().deserialize(configurationSection.getString("displayName", ".+"))));
-        lore = new LoreData("lore", configurationSection);
-        ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
-        if (enchantSection != null) {
-            enchantComparisonData = new EnchantComparisonData(enchantSection);
-        }
+    @JsonCreator
+    public ItemMetaComparisonData(@JsonProperty("displayName") String displayName,
+                                  @JsonProperty("lore") LoreData lore,
+                                  @JsonProperty("enchants") EnchantComparisonData enchantComparisonData
+    ) {
+        this(
+                Pattern.compile(legacySerializer.serialize(MiniMessage.miniMessage().deserialize(displayName == null ? ".+" : displayName))),
+                lore == null ? new LoreData(List.of()) : lore,
+                enchantComparisonData
+        );
     }
 
     public boolean matches(ItemMeta meta) {

@@ -1,6 +1,5 @@
 package me.xemor.configurationdata;
 
-import me.xemor.configurationdata.ItemStackData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -29,32 +28,32 @@ public class EquipmentData {
         ConfigurationSection offHandSection = configurationSection.getConfigurationSection("offhand");
         if (helmetSection != null) {
             ItemStackData helmetData = new ItemStackData(helmetSection, "AIR");
-            this.helmet = helmetData.getItem();
+            this.helmet = helmetData.item();
             helmetDropRate = (float) helmetSection.getDouble("droprate", 0.0);
         }
         if (chestplateSection != null) {
             ItemStackData chestplateData = new ItemStackData(chestplateSection, "AIR");
-            this.chestplate = chestplateData.getItem();
+            this.chestplate = chestplateData.item();
             chestplateDropRate = (float) chestplateSection.getDouble("droprate", 0.0);
         }
         if (leggingsSection != null) {
             ItemStackData leggingsData = new ItemStackData(leggingsSection, "AIR");
-            this.leggings = leggingsData.getItem();
+            this.leggings = leggingsData.item();
             leggingsDropRate = (float) leggingsSection.getDouble("droprate", 0.0);
         }
         if (bootsSection != null) {
             ItemStackData bootsData = new ItemStackData(bootsSection, "AIR");
-            this.boots = bootsData.getItem();
+            this.boots = bootsData.item();
             bootsDropRate = (float) bootsSection.getDouble("droprate", 0.0);
         }
         if (mainHandSection != null) {
             ItemStackData mainHandData = new ItemStackData(mainHandSection, "AIR");
-            this.mainHand = mainHandData.getItem();
+            this.mainHand = mainHandData.item();
             mainhandDropRate = (float) mainHandSection.getDouble("droprate", 0.0);
         }
         if (offHandSection != null) {
             ItemStackData offHandData = new ItemStackData(offHandSection, "AIR");
-            this.offHand = offHandData.getItem();
+            this.offHand = offHandData.item();
             offhandDropRate = (float) offHandSection.getDouble("droprate", 0.0);
         }
     }
