@@ -19,7 +19,7 @@ public class ThrowableProjectileData extends EntityAttributeData {
     public void apply(Entity entity) {
         ThrowableProjectile throwableProjectile = (ThrowableProjectile) entity;
         if (itemStackData != null) {
-            throwableProjectile.setItem(itemStackData.getItem());
+            throwableProjectile.setItem(itemStackData.item());
         }
     }
 }

@@ -23,8 +23,8 @@ public class RabbitData extends LivingEntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Rabbit rabbit = (Rabbit) entity;
         if (variant != null) {

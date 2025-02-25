@@ -8,22 +8,9 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.logging.Level;
 
-public class BlockDataComparisonData {
-    private final SetData<Material> types;
-    private final RangeData level;
-    private final RangeData age;
-
-    public BlockDataComparisonData(ConfigurationSection configurationSection) {
-        types = new SetData<>(Material.class, "types", configurationSection);
-        if (types.getSet().isEmpty()) {
-            types.getSet().add(Material.valueOf(configurationSection.getString("type", "STONE")));
-        }
-        level = new RangeData("level", configurationSection);
-        age = new RangeData("age", configurationSection);
-    }
-
+public record BlockDataComparisonData(SetData<Material> types, RangeData level, RangeData age) {
     public boolean matches(BlockData blockData) {
-        if (blockData==null) return false;
+        if (blockData == null) return false;
         boolean value = types.inSet(blockData.getMaterial());
 
         if (blockData instanceof Levelled levelled) value &= level.isInRange(levelled.getLevel());
@@ -31,5 +18,4 @@ public class BlockDataComparisonData {
 
         return value;
     }
-
 }

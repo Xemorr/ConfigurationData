@@ -6,24 +6,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ItemComparisonData {
+import javax.annotation.Nullable;
 
-    private final SetData<Material> types;
-    private final RangeData amount;
-    private ItemMetaComparisonData itemMetaData = null;
-
-    public ItemComparisonData(ConfigurationSection configurationSection) {
-        types = new SetData<>(Material.class, "types", configurationSection);
-        if (!configurationSection.contains("types", true)) {
-            types.getSet().add(Material.valueOf(configurationSection.getString("type", "STONE")));
-        }
-        amount = new RangeData("amount", configurationSection);
-        ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
-        if (metadataSection != null) {
-            itemMetaData = new ItemMetaComparisonData(metadataSection);
-        }
-    }
-
+public record ItemComparisonData(SetData<Material> types, RangeData amount, @Nullable ItemMetaComparisonData itemMetaData) {
     public boolean matches(ItemStack item) {
         ItemMeta meta;
         if (item == null) return false;
@@ -35,5 +20,4 @@ public class ItemComparisonData {
         }
         return value;
     }
-
 }

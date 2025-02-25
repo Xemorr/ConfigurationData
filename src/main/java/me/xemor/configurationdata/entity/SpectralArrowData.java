@@ -15,8 +15,8 @@ public class SpectralArrowData extends AbstractArrowData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         SpectralArrow spectralArrow = (SpectralArrow) entity;
         spectralArrow.setGlowingTicks(glowingTicks);

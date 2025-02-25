@@ -23,8 +23,8 @@ public class AxolotlData extends LivingEntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Axolotl axolotl = (Axolotl) entity;
         if (variant != null) {

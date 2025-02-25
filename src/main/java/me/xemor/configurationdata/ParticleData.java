@@ -1,17 +1,14 @@
 package me.xemor.configurationdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.Particle;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class ParticleData {
 
-    private Particle particle;
-    private int numberOfParticles;
-
-    public ParticleData(ConfigurationSection configurationSection) {
-        particle = Particle.valueOf(configurationSection.getString("particle", "BARRIER").toUpperCase());
-        numberOfParticles = configurationSection.getInt("numberOfParticles", 1);
-    }
+    @JsonProperty
+    private Particle particle = Particle.TOTEM_OF_UNDYING;
+    @JsonProperty
+    private int numberOfParticles = 1;
 
     public Particle getParticle() {
         return particle;
