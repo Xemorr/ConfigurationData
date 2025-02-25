@@ -26,8 +26,8 @@ public class PotionEntityData extends EntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         ThrownPotion thrownPotion = (ThrownPotion) entity;
         thrownPotion.setItem(potion);

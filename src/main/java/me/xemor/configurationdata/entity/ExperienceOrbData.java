@@ -15,8 +15,8 @@ public class ExperienceOrbData extends EntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         ExperienceOrb experienceOrb = (ExperienceOrb) entity;
         experienceOrb.setExperience(experience);

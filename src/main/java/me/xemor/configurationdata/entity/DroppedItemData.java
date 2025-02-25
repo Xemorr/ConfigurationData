@@ -22,8 +22,8 @@ public class DroppedItemData extends EntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Item droppedItem = (Item) entity;
         droppedItem.setItemStack(stackData.item());

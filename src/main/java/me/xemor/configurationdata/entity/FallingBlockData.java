@@ -33,14 +33,14 @@ public class FallingBlockData extends EntityData {
     @Override
     public Entity spawnEntity(@NotNull Location location) {
         Entity entity = location.getWorld().spawnFallingBlock(location, blockData);
-        applyAttributes(entity);
+        applyExtraMetadata(entity);
         getEntitySpecificAttributes().forEach(attributeData -> attributeData.apply(entity));
         return entity;
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         FallingBlock fallingBlock = (FallingBlock) entity;
         fallingBlock.setDropItem(dropItem);

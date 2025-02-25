@@ -17,8 +17,8 @@ public class LlamaData extends HorseData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Llama llama = (Llama) entity;
         if (color != null) {

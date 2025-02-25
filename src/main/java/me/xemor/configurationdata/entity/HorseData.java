@@ -51,8 +51,8 @@ public class HorseData extends LivingEntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         if (entity instanceof AbstractHorse) {
             AbstractHorse horse = (AbstractHorse) entity;

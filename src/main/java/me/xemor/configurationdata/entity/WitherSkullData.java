@@ -15,8 +15,8 @@ public class WitherSkullData extends EntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         WitherSkull witherSkull = (WitherSkull) entity;
         witherSkull.setCharged(isCharged);

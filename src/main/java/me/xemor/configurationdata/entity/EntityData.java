@@ -87,12 +87,12 @@ public class EntityData {
 
     public Entity spawnEntity(@NotNull Location location) {
         Entity entity = location.getWorld().spawnEntity(location, entityType);
-        applyAttributes(entity);
+        applyExtraMetadata(entity);
         entitySpecificAttributes.forEach(attributeData -> attributeData.apply(entity));
         return entity;
     }
 
-    public void applyAttributes(Entity entity) {
+    public void applyExtraMetadata(Entity entity) {
         if (nameTag != null) {
             entity.setCustomName(nameTag);
         }

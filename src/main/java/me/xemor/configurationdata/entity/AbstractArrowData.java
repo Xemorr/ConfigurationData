@@ -24,8 +24,8 @@ public class AbstractArrowData extends EntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         AbstractArrow abstractArrow = (AbstractArrow) entity;
         abstractArrow.setKnockbackStrength(knockbackStrength);

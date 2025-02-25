@@ -15,8 +15,8 @@ public class WolfData extends LivingEntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Wolf wolf = (Wolf) entity;
         wolf.setAngry(angry);

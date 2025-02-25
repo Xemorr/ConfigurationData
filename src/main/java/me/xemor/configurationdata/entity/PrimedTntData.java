@@ -15,8 +15,8 @@ public class PrimedTntData extends EntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         TNTPrimed primedTnt = (TNTPrimed) entity;
         primedTnt.setFuseTicks(fuseTicks);

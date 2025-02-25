@@ -33,8 +33,8 @@ public class ArrowData extends AbstractArrowData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Arrow arrow = (Arrow) entity;
         if (potionData != null && getMinorVersion() <= 21 && potionData != null) {

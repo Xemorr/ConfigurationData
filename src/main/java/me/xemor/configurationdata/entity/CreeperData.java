@@ -21,8 +21,8 @@ public class CreeperData extends LivingEntityData {
     }
 
     @Override
-    public void applyAttributes(Entity entity) {
-        super.applyAttributes(entity);
+    public void applyExtraMetadata(Entity entity) {
+        super.applyExtraMetadata(entity);
 
         Creeper creeper = (Creeper) entity;
         creeper.setMaxFuseTicks(fuse);
