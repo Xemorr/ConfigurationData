@@ -1,4 +1,4 @@
-package me.xemor.configurationdata.deserializers;
+package me.xemor.configurationdata.deserializers.text;
 
 import org.bukkit.Registry;
 import org.bukkit.inventory.meta.trim.TrimPattern;

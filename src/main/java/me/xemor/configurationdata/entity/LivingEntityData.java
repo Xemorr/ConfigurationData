@@ -41,9 +41,9 @@ public class LivingEntityData extends EntityData {
         equipment.setHelmetDropChance(equipmentData.getHelmetDropRate());
         equipment.setChestplate(equipmentData.getChestplate(), true);
         equipment.setChestplateDropChance(equipmentData.getChestplateDropRate());
-        equipment.setLeggings(equipmentData.getLeggings(), true);
+        equipment.setLeggings(equipmentData.getLegs(), true);
         equipment.setLeggingsDropChance(equipmentData.getLeggingsDropRate());
-        equipment.setBoots(equipmentData.getBoots(), true);
+        equipment.setBoots(equipmentData.getFeet(), true);
         equipment.setBootsDropChance(equipmentData.getBootsDropRate());
         equipment.setItemInMainHand(equipmentData.getMainHand(), true);
         equipment.setItemInMainHandDropChance(equipmentData.getMainHandDropRate());

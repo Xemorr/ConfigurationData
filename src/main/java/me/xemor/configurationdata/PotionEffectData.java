@@ -29,15 +29,17 @@ public class PotionEffectData {
     }
 
     private PotionEffect createPotion() {
+        int duration;
         if (type.isInstant()) {
-            return new PotionEffect(type, 1, potency, ambient, hasParticles);
+            duration = 1;
         }
-        else if (duration != 0) {
-            return new PotionEffect(type, (int) Math.round(duration * 20), potency, ambient, hasParticles);
+        else if (this.duration != 0) {
+            duration = (int) Math.round(this.duration * 20);
         }
         else {
-            return new PotionEffect(type, Integer.MAX_VALUE, potency, ambient, hasParticles);
+            duration = Integer.MAX_VALUE;
         }
+        return new PotionEffect(type, duration, potency, ambient, hasParticles);
     }
 
 }

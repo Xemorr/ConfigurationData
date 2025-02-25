@@ -1,7 +1,5 @@
-package me.xemor.configurationdata.deserializers;
+package me.xemor.configurationdata.deserializers.text;
 
-import com.fasterxml.jackson.core.JsonLocation;
-import me.xemor.configurationdata.ConfigurationData;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
 

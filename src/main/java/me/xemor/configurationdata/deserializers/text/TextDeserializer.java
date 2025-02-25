@@ -1,4 +1,4 @@
-package me.xemor.configurationdata.deserializers;
+package me.xemor.configurationdata.deserializers.text;
 
 import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParser;
