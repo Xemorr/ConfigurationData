@@ -3,6 +3,7 @@ package me.xemor.configurationdata.entity;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
@@ -201,7 +202,8 @@ public class EntityData {
                 // TODO: Work out how to handle defaults
                 entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
             } catch(IllegalArgumentException e) {
-                ConfigurationData.getLogger().severe("'" + entityTypeRaw + "' at " + configurationSection.getCurrentPath() + ".entity is not a valid entity.");
+                JsonLocation location = parser.currentLocation();
+                ConfigurationData.getLogger().severe("'" + entityTypeRaw + "' at %s:%s is not a valid entity.".formatted(location.getLineNr(), location.getColumnNr()));
                 return null;
             }
 
