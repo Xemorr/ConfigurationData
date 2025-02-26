@@ -9,36 +9,36 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityDataRegistry {
 
-    private static final ConcurrentHashMap<EntityType, EntityDataConstructor> entityTypeToDataClass = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<EntityType, Class<? extends EntityData>> entityTypeToDataClass = new ConcurrentHashMap<>();
 
     static {
-        registerEntityData(EntityType.ARROW, ArrowData::new);
-        registerEntityData(EntityType.AXOLOTL, AxolotlData::new);
-        registerEntityData(EntityType.CREEPER, CreeperData::new);
-        registerEntityData(EntityType.ITEM, DroppedItemData::new);
-        registerEntityData(EntityType.EXPERIENCE_ORB, ExperienceOrbData::new);
-        registerEntityData(EntityType.FALLING_BLOCK, FallingBlockData::new);
-        registerEntityData(EntityType.HORSE, HorseData::new);
-        registerEntityData(EntityType.SKELETON_HORSE, HorseData::new);
-        registerEntityData(EntityType.ZOMBIE_HORSE, HorseData::new);
-        registerEntityData(EntityType.LLAMA, LlamaData::new);
-        registerEntityData(EntityType.TNT, PrimedTntData::new);
-        registerEntityData(EntityType.SPECTRAL_ARROW, SpectralArrowData::new);
-        registerEntityData(EntityType.POTION, PotionEntityData::new);
-        registerEntityData(EntityType.RABBIT, RabbitData::new);
-        registerEntityData(EntityType.TRIDENT, AbstractArrowData::new);
-        registerEntityData(EntityType.WITHER_SKULL, WitherSkullData::new);
-        registerEntityData(EntityType.WOLF, WolfData::new);
+        registerEntityData(EntityType.ARROW, ArrowData.class);
+        registerEntityData(EntityType.AXOLOTL, AxolotlData.class);
+        registerEntityData(EntityType.CREEPER, CreeperData.class);
+        registerEntityData(EntityType.ITEM, DroppedItemData.class);
+        registerEntityData(EntityType.EXPERIENCE_ORB, ExperienceOrbData.class);
+        registerEntityData(EntityType.FALLING_BLOCK, FallingBlockData.class);
+        registerEntityData(EntityType.HORSE, HorseData.class);
+        registerEntityData(EntityType.SKELETON_HORSE, HorseData.class);
+        registerEntityData(EntityType.ZOMBIE_HORSE, HorseData.class);
+        registerEntityData(EntityType.LLAMA, LlamaData.class);
+        registerEntityData(EntityType.TNT, PrimedTntData.class);
+        registerEntityData(EntityType.SPECTRAL_ARROW, SpectralArrowData.class);
+        registerEntityData(EntityType.POTION, PotionEntityData.class);
+        registerEntityData(EntityType.RABBIT, RabbitData.class);
+        registerEntityData(EntityType.TRIDENT, AbstractArrowData.class);
+        registerEntityData(EntityType.WITHER_SKULL, WitherSkullData.class);
+        registerEntityData(EntityType.WOLF, WolfData.class);
     }
 
-    public static void registerEntityData(EntityType entityType, EntityDataConstructor entityDataConstructor) {
-        entityTypeToDataClass.put(entityType, entityDataConstructor);
+    public static void registerEntityData(EntityType entityType, Class<? extends EntityData> entityDataClass) {
+        entityTypeToDataClass.put(entityType, entityDataClass);
     }
 
-    public static EntityDataConstructor getConstructor(EntityType entityType) {
-        EntityDataConstructor dataConstructor = entityTypeToDataClass.get(entityType);
-        if (dataConstructor != null) {
-            return dataConstructor;
+    public static Class<? extends EntityData> getEntityDataClass(EntityType entityType) {
+        Class<? extends EntityData> entityDataClass = entityTypeToDataClass.get(entityType);
+        if (entityDataClass != null) {
+            return entityDataClass;
         }
 
         Class<? extends Entity> entityClass = entityType.getEntityClass();
@@ -47,9 +47,9 @@ public class EntityDataRegistry {
         }
 
         if (LivingEntity.class.isAssignableFrom(entityClass)) {
-            return LivingEntityData::new;
+            return LivingEntityData.class;
         } else {
-            return EntityData::new;
+            return EntityData.class;
         }
     }
 
