@@ -1,5 +1,15 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonLocation;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import me.xemor.configurationdata.AttributesData;
 import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.entity.attribute.*;
@@ -11,20 +21,31 @@ import org.bukkit.entity.*;
 import org.bukkit.material.Colorable;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonDeserialize(using = EntityData.EntityDataDeserializer.class)
 @SuppressWarnings("unused")
 public class EntityData {
     protected final static LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
+    @JsonProperty
     private final EntityType entityType;
+    @JsonProperty
     private final boolean shouldDespawn;
+    @JsonProperty
+    @JsonAlias({"nametag"})
     private final String nameTag;
+    @JsonProperty
     private final boolean customNameVisible;
+    @JsonProperty
     private final boolean silent;
+    @JsonProperty
     private final boolean visualFire;
+    @JsonProperty("attributes")
     private final AttributesData attributesData;
+    @JsonProperty("passenger")
     private EntityData passengerData;
     private final List<EntityAttributeData> entitySpecificAttributes = new ArrayList<>();
 
@@ -165,7 +186,31 @@ public class EntityData {
             ConfigurationData.getLogger().severe("Deprecated: The contents of the 'extra' section at '" + configurationSection.getCurrentPath() + "' should now be placed in the root of the entity section");
         }
 
-        EntityDataRegistry.EntityDataConstructor entityDataConstructor = EntityDataRegistry.getConstructor(entityType);
+        EntityDataRegistry.EntityDataConstructor entityDataConstructor = EntityDataRegistry.getEntityDataClass(entityType);
         return entityDataConstructor != null ? entityDataConstructor.apply(configurationSection) : null;
+    }
+
+    public static class EntityDataDeserializer extends JsonDeserializer<EntityData> {
+
+        @Override
+        public EntityData deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
+            JsonNode node = parser.getCodec().readTree(parser);
+
+            String entityTypeRaw = node.get("type").asText();
+            EntityType entityType;
+            try {
+                // TODO: Work out how to handle defaults
+                entityType = entityTypeRaw != null ? EntityType.valueOf(entityTypeRaw.toUpperCase()) : def;
+            } catch(IllegalArgumentException e) {
+                JsonLocation location = parser.currentLocation();
+                ConfigurationData.getLogger().severe("'" + entityTypeRaw + "' at %s:%s is not a valid entity.".formatted(location.getLineNr(), location.getColumnNr()));
+                return null;
+            }
+
+            Class<?> entityDataClass = EntityDataRegistry.getEntityDataClass(entityType);
+            JavaType javaType = context.getTypeFactory().constructType(entityDataClass);
+            JsonDeserializer<?> deserializer = context.findRootValueDeserializer(javaType);
+            return (EntityData) deserializer.deserialize(parser, context);
+        }
     }
 }
