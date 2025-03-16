@@ -4,7 +4,7 @@ import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.entity.Entity;
 import org.bukkit.potion.PotionType;
 
-public class ArrowComponentComponent extends AbstractArrowComponent {
+public class ArrowComponent extends AbstractArrowComponent {
 
     @JsonPropertyWithDefault
     private PotionType potionType;

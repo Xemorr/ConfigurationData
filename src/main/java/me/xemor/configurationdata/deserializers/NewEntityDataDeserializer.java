@@ -36,7 +36,7 @@ public class NewEntityDataDeserializer extends JsonDeserializer<NewEntityData> {
                 .setAttributes(context.readValue(node.path("attributes").traverse(), AttributesData.class))
                 .setPassenger(context.readValue(node.path("passenger").traverse(), NewEntityData.class));
 
-        List<Class<EntityComponent>> relevantComponentClasses = EntityComponentRegistry.getEntityComponentDataClasses(type.getEntityClass());
+        List<? extends Class<? extends EntityComponent>> relevantComponentClasses = EntityComponentRegistry.getEntityComponentDataClasses(type.getEntityClass());
 
         Stream<EntityComponent> components = relevantComponentClasses
                 .stream()

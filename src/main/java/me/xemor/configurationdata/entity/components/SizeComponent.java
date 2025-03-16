@@ -7,7 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Slime;
 
-public class SizeComponent extends EntityComponent {
+public class SizeComponent implements EntityComponent {
 
     @JsonPropertyWithDefault
     private final Integer size = null;

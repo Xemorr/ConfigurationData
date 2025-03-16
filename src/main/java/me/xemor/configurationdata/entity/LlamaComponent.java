@@ -1,25 +1,20 @@
 package me.xemor.configurationdata.entity;
 
+import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.entity.components.EntityComponent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
 
-public class LlamaComponent extends HorseComponent {
+public class LlamaComponent implements EntityComponent {
 
-    private final Llama.Color color;
-    private final int strength;
-
-    public LlamaComponent(ConfigurationSection configurationSection) {
-        super(configurationSection);
-
-        color = configurationSection.contains("color") ? Llama.Color.valueOf(configurationSection.getString("color")) : null;
-        strength = configurationSection.getInt("strength", 1);
-    }
+    @JsonPropertyWithDefault
+    private final Llama.Color color = null;
+    @JsonPropertyWithDefault
+    private final int strength = 1;
 
     @Override
-    public void applyExtraMetadata(Entity entity) {
-        super.applyExtraMetadata(entity);
-
+    public void apply(Entity entity, NewEntityData builderSoFar) {
         Llama llama = (Llama) entity;
         if (color != null) {
             llama.setColor(color);

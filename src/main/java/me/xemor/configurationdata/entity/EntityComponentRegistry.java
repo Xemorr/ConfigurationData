@@ -1,8 +1,8 @@
 package me.xemor.configurationdata.entity;
 
-import me.xemor.configurationdata.entity.components.EntityComponent;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import me.xemor.configurationdata.entity.components.*;
+import org.bukkit.entity.*;
+import org.bukkit.material.Colorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,35 +12,41 @@ public class EntityComponentRegistry {
     private static final List<EntityClassToComponentPair> entityTypeToDataClass = new ArrayList<>();
 
     static {
-        registerEntityData(EntityType.ARROW, ArrowComponentComponent::new);
-        registerEntityData(EntityType.AXOLOTL, AxolotlComponent::new);
-        registerEntityData(EntityType.CREEPER, CreeperComponent::new);
-        registerEntityData(EntityType.ITEM, DroppedItemComponent::new);
-        registerEntityData(EntityType.EXPERIENCE_ORB, ExperienceOrbComponent::new);
-        registerEntityData(EntityType.FALLING_BLOCK, FallingBlockComponent::new);
-        registerEntityData(EntityType.HORSE, HorseComponent::new);
-        registerEntityData(EntityType.SKELETON_HORSE, HorseComponent::new);
-        registerEntityData(EntityType.ZOMBIE_HORSE, HorseComponent::new);
-        registerEntityData(EntityType.LLAMA, LlamaComponent::new);
-        registerEntityData(EntityType.TNT, PrimedTntComponent::new);
-        registerEntityData(EntityType.SPECTRAL_ARROW, SpectralArrowComponent::new);
-        registerEntityData(EntityType.POTION, PotionEntityComponent::new);
-        registerEntityData(EntityType.RABBIT, RabbitComponent::new);
-        registerEntityData(EntityType.TRIDENT, AbstractArrowComponent::new);
-        registerEntityData(EntityType.WITHER_SKULL, WitherSkullComponent::new);
-        registerEntityData(EntityType.WOLF, WolfComponent::new);
+        registerEntityData(Arrow.class, ArrowComponent.class);
+        registerEntityData(Axolotl.class, AxolotlComponent.class);
+        registerEntityData(Creeper.class, CreeperComponent.class);
+        registerEntityData(Item.class, DroppedItemComponent.class);
+        registerEntityData(ExperienceOrb.class, ExperienceOrbComponent.class);
+        registerEntityData(FallingBlock.class, FallingBlockComponent.class);
+        registerEntityData(AbstractHorse.class, HorseComponent.class);
+        registerEntityData(Llama.class, LlamaComponent.class);
+        registerEntityData(TNTPrimed.class, PrimedTntComponent.class);
+        registerEntityData(SpectralArrow.class, SpectralArrowComponent.class);
+        registerEntityData(ThrownPotion.class, PotionEntityComponent.class);
+        registerEntityData(Rabbit.class, RabbitComponent.class);
+        registerEntityData(Trident.class, AbstractArrowComponent.class);
+        registerEntityData(WitherSkull.class, WitherSkullComponent.class);
+        registerEntityData(Wolf.class, WolfComponent.class);
+        registerEntityData(Ageable.class, AgeableComponent.class);
+        registerEntityData(Colorable.class, ColorableComponent.class);
+        registerEntityData(Explosive.class, ExplosiveComponent.class);
+        registerEntityData(Slime.class, SizeComponent.class);
+        registerEntityData(Phantom.class, SizeComponent.class);
+        registerEntityData(ThrowableProjectile.class, ThrowableProjectileComponent.class);
+        registerEntityData(PiglinAbstract.class, ZombifiableComponent.class);
+        registerEntityData(Hoglin.class, ZombifiableComponent.class);
     }
 
-    public static void registerEntityData(Class<Entity> inheritsFrom, Class<EntityComponent> entityComponentDataClass) {
+    public static void registerEntityData(Class inheritsFrom, Class<? extends EntityComponent> entityComponentDataClass) {
         entityTypeToDataClass.add(new EntityClassToComponentPair(inheritsFrom, entityComponentDataClass));
     }
 
-    public static List<Class<EntityComponent>> getEntityComponentDataClasses(Class<? extends Entity> inheritsFrom) {
+    public static List<? extends Class<? extends EntityComponent>> getEntityComponentDataClasses(Class<? extends Entity> inheritsFrom) {
         return entityTypeToDataClass.stream()
                 .filter((pair) -> inheritsFrom.isAssignableFrom(pair.clazz))
                 .map((pair) -> pair.componentClazz)
                 .toList();
     }
 
-    private record EntityClassToComponentPair(Class<Entity> clazz, Class<EntityComponent> componentClazz) {}
+    private record EntityClassToComponentPair(Class clazz, Class<? extends EntityComponent> componentClazz) {}
 }
