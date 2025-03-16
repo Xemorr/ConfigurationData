@@ -20,9 +20,9 @@ import java.util.UUID;
 public class AttributesData {
     private final Map<Attribute, Double> attributeToValue = new HashMap<>();
 
-    @JsonSetter(nulls = Nulls.SKIP)
+    @JsonPropertyWithDefault
     private final EquipmentSlotGroup equipmentSlot = EquipmentSlotGroup.ANY;
-    @JsonSetter(nulls = Nulls.SKIP)
+    @JsonPropertyWithDefault
     private final AttributeModifier.Operation operation = AttributeModifier.Operation.ADD_NUMBER;
 
     @JsonAnySetter
