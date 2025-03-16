@@ -39,7 +39,7 @@ public class ConfigurationData {
 
     public static JavaPlugin getPlugin() { return plugin; }
 
-    public ObjectMapper setupObjectMapperForConfigurationData(ObjectMapper objectMapper) {
+    public static ObjectMapper setupObjectMapperForConfigurationData(ObjectMapper objectMapper) {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule
                 .addDeserializer(Attribute.class, new AttributeDeserializer())

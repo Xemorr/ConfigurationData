@@ -1,6 +1,8 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import me.xemor.configurationdata.AttributesData;
+import me.xemor.configurationdata.deserializers.NewEntityDataDeserializer;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonDeserialize(using = NewEntityDataDeserializer.class)
 public final class NewEntityData {
 
     protected final static LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
