@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class TrimMaterialDeserializer extends TextDeserializer<TrimMaterial> {
     @Override
-    public Deserialized<TrimMaterial> deserialize(String text) {
-        return new Deserialized<>(Registry.TRIM_MATERIAL.match(text.toUpperCase(Locale.ROOT)), false);
+    public TrimMaterial deserialize(String text) {
+        return Registry.TRIM_MATERIAL.match(text.toUpperCase(Locale.ROOT));
     }
 }

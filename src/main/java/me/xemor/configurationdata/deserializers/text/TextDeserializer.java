@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import me.xemor.configurationdata.ConfigurationData;
+import org.bukkit.Bukkit;
 
 import java.io.IOException;
 
@@ -13,9 +14,9 @@ public abstract class TextDeserializer<T> extends JsonDeserializer<T> {
     @Override
     public T deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         String text = jsonParser.getText();
-        Deserialized<T> deserialized = deserialize(text);
+        T deserialized = deserialize(text);
         JsonLocation location = jsonParser.currentLocation();
-        if (deserialized.defaulted() || deserialized.value() == null) {
+        if (deserialized == null) {
             ConfigurationData.getLogger().severe("%s cannot deserialize %s at: %s:%s".formatted(
                     getClass().getSimpleName().toLowerCase(),
                     text,
@@ -23,14 +24,16 @@ public abstract class TextDeserializer<T> extends JsonDeserializer<T> {
                     location.getColumnNr()
             ));
         }
-        return deserialized.value();
+        return deserialized;
     }
 
-    public abstract Deserialized<T> deserialize(String text);
+    public abstract T deserialize(String text);
 
     public T parse(String text) {
-        return deserialize(text).value();
+        return deserialize(text);
     }
 
-    public record Deserialized<T>(T value, boolean defaulted) {}
+    public int getMinorVersion() {
+        return Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("-")[0].split("\\.")[1]);
+    }
 }

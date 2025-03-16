@@ -20,13 +20,13 @@ public class BlockDataDeserializer extends JsonDeserializer<BlockData> {
     @Override
     public BlockData deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonNode node = parser.getCodec().readTree(parser);
-        Material material = materialDeserializer.deserialize(parser.getCodec().treeAsTokens(node.get("material")), context);
+        Material material = materialDeserializer.parse(node.path("material").asText("STONE"));
 
         BlockData blockData = Bukkit.createBlockData(material);
 
-        int level = node.get("level").asInt(-1);
+        int level = node.path("level").asInt(-1);
         if (level != -1 && blockData instanceof Levelled levelled) levelled.setLevel(level);
-        int age = node.get("age").asInt(-1);
+        int age = node.path("age").asInt(-1);
         if (age != -1 && blockData instanceof Ageable ageable) ageable.setAge(age);
 
         return blockData;

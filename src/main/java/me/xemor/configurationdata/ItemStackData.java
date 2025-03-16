@@ -6,7 +6,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public record ItemStackData(Material type, int amount, ItemMetaData metadata) {
+public class ItemStackData {
+
+    @JsonPropertyWithDefault
+    private Material type = Material.STONE;
+    @JsonPropertyWithDefault
+    private int amount = 1;
+    @JsonPropertyWithDefault
+    private ItemMetaData metadata = null;
+
     /**
      * Please use ItemComparisonData instead.
      */
@@ -39,7 +47,7 @@ public record ItemStackData(Material type, int amount, ItemMetaData metadata) {
     public ItemStack item() {
         ItemStack item = new ItemStack(type);
         item.setAmount(amount);
-        item.setItemMeta(metadata.createItemMeta(item.getType()));
+        if (metadata != null) item.setItemMeta(metadata.createItemMeta(item.getType()));
         return item;
     }
 

@@ -10,8 +10,10 @@ import java.io.IOException;
 @JsonDeserialize(using = RangeData.Deserializer.class)
 public class RangeData {
 
-    private double upperbound;
-    private double lowerbound;
+    private double upperbound = Double.POSITIVE_INFINITY;
+    private double lowerbound = Double.NEGATIVE_INFINITY;
+
+    public RangeData() {}
 
     public RangeData(String rangeStr) {
         init(rangeStr);
@@ -28,9 +30,6 @@ public class RangeData {
                 lowerbound = Double.parseDouble(split[0]);
                 upperbound = Double.parseDouble(split[1]);
             }
-        } else {
-            lowerbound = Double.NEGATIVE_INFINITY;
-            upperbound = Double.POSITIVE_INFINITY;
         }
     }
 

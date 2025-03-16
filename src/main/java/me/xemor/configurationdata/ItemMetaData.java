@@ -19,28 +19,28 @@ public class ItemMetaData {
 
     private static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
-    @JsonProperty
+    @JsonPropertyWithDefault
     private String displayName = null;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private List<String> lore = null;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private boolean isUnbreakable = false;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private int durability = 0;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private int customModelData = 0;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private AttributesData attributes;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private EnchantmentsData enchants;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private TrimData trim;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private List<ItemFlag> flags;
-    @JsonProperty
-    private BookData book;
-    @JsonProperty
-    private LeatherArmorColor color;
+    @JsonPropertyWithDefault
+    private BookData book = null;
+    @JsonPropertyWithDefault
+    private LeatherArmorColor color = null;
 
     public ItemMeta createItemMeta(Material material) {
         return applyToItemMeta(Bukkit.getItemFactory().getItemMeta(material));
@@ -70,9 +70,9 @@ public class ItemMetaData {
 
         if (durability != 0 && meta instanceof Damageable damageable) damageable.setDamage(durability);
 
-        if (meta instanceof LeatherArmorMeta leatherMeta) color.handleLeatherArmor(leatherMeta);
+        if (meta instanceof LeatherArmorMeta leatherMeta && color != null) color.handleLeatherArmor(leatherMeta);
 
-        if (meta instanceof BookMeta bookMeta) book.applyToBookMeta(bookMeta);
+        if (meta instanceof BookMeta bookMeta && book != null) book.applyToBookMeta(bookMeta);
 
         return meta;
     }

@@ -1,6 +1,5 @@
 package me.xemor.configurationdata.deserializers;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
@@ -14,7 +13,7 @@ import java.io.IOException;
 public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
 
     @Override
-    public ItemStack deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
+    public ItemStack deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonNode node = parser.getCodec().readTree(parser);
         ItemStackData itemStackData = deserializeItemStackData(parser, context, node);
         return itemStackData.item();

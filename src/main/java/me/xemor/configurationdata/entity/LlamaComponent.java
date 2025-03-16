@@ -4,12 +4,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
 
-public class LlamaData extends HorseData {
+public class LlamaComponent extends HorseComponent {
 
     private final Llama.Color color;
     private final int strength;
 
-    public LlamaData(ConfigurationSection configurationSection) {
+    public LlamaComponent(ConfigurationSection configurationSection) {
         super(configurationSection);
 
         color = configurationSection.contains("color") ? Llama.Color.valueOf(configurationSection.getString("color")) : null;

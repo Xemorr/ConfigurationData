@@ -9,19 +9,19 @@ import java.util.Optional;
 
 public class PotionEffectData {
 
-    @JsonProperty
+    @CompulsoryJsonProperty
     private PotionEffectType type;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private double duration = 5;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private int potency = 0;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private boolean ambient = true;
-    @JsonProperty
+    @JsonPropertyWithDefault
     private boolean hasParticles = true;
 
     public PotionEffectData() {
-        if (potency > 0) potency--;
+
     }
 
     public PotionEffect getPotionEffect() {
@@ -29,6 +29,8 @@ public class PotionEffectData {
     }
 
     private PotionEffect createPotion() {
+        int workingPotency = potency;
+        if (workingPotency > 0) workingPotency--;
         int duration;
         if (type.isInstant()) {
             duration = 1;
@@ -39,7 +41,7 @@ public class PotionEffectData {
         else {
             duration = Integer.MAX_VALUE;
         }
-        return new PotionEffect(type, duration, potency, ambient, hasParticles);
+        return new PotionEffect(type, duration, workingPotency, ambient, hasParticles);
     }
 
 }
