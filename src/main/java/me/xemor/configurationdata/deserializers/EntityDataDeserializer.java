@@ -8,7 +8,7 @@ import me.xemor.configurationdata.AttributesData;
 import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.deserializers.text.RegistryDeserializer;
 import me.xemor.configurationdata.entity.EntityComponentRegistry;
-import me.xemor.configurationdata.entity.NewEntityData;
+import me.xemor.configurationdata.entity.EntityData;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
@@ -17,17 +17,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class NewEntityDataDeserializer extends JsonDeserializer<NewEntityData> {
+public class EntityDataDeserializer extends JsonDeserializer<EntityData> {
 
     private static final RegistryDeserializer<EntityType> entityTypeDeserializer = new RegistryDeserializer<>(Registry.ENTITY_TYPE);
 
     @Override
-    public NewEntityData deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+    public EntityData deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonNode node = parser.getCodec().readTree(parser);
 
         EntityType type = entityTypeDeserializer.parse(node.path("type").asText());
 
-        NewEntityData builder = new NewEntityData()
+        EntityData builder = new EntityData()
                 .setType(type == null ? EntityType.ZOMBIE : type)
                 .setNameTag(node.path("nameTag").asText())
                 .shouldDespawn(node.path("shouldDespawn").asBoolean(true))
@@ -40,7 +40,7 @@ public class NewEntityDataDeserializer extends JsonDeserializer<NewEntityData> {
         }
         if (node.get("passenger") != null) {
             // hoping this handles null sensibly without causing infinite recursion
-            builder.setPassenger(context.readValue(node.path("passenger").traverse(), NewEntityData.class));
+            builder.setPassenger(context.readValue(node.path("passenger").traverse(), EntityData.class));
         }
         List<? extends Class<? extends EntityComponent>> relevantComponentClasses = EntityComponentRegistry.getEntityComponentDataClasses(type.getEntityClass());
 

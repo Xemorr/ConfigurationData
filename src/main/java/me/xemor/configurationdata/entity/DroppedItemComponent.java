@@ -14,7 +14,7 @@ public class DroppedItemComponent implements EntityComponent {
     private ItemStackData stackData = null;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         Item droppedItem = (Item) entity;
         if (stackData != null) droppedItem.setItemStack(stackData.item());
     }

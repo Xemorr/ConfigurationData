@@ -2,7 +2,7 @@ package me.xemor.configurationdata.entity.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
-import me.xemor.configurationdata.entity.NewEntityData;
+import me.xemor.configurationdata.entity.EntityData;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 
@@ -13,7 +13,7 @@ public class AgeableComponent implements EntityComponent {
     private boolean isBaby = false;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         Ageable ageable = (Ageable) entity;
         if (isBaby) {
             ageable.setBaby();

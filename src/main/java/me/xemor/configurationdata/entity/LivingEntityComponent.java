@@ -17,7 +17,7 @@ public class LivingEntityComponent implements EntityComponent {
     private EquipmentData equipment = null;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         LivingEntity livingEntity = (LivingEntity) entity;
         livingEntity.setRemoveWhenFarAway(builderSoFar.shouldDespawn());
         livingEntity.setCanPickupItems(canEquip);

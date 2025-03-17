@@ -25,7 +25,7 @@ public class FallingBlockComponent implements EntityComponent {
     private int maxDamage = 40;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         FallingBlock fallingBlock = (FallingBlock) entity;
         fallingBlock.setDropItem(dropItem);
         fallingBlock.setCancelDrop(cancelDrop);

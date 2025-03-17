@@ -19,7 +19,7 @@ public class CreeperComponent implements EntityComponent {
     private boolean powered = false;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         Creeper creeper = (Creeper) entity;
         creeper.setMaxFuseTicks(fuse);
         creeper.setPowered(powered);

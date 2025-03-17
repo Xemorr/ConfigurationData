@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import me.xemor.configurationdata.deserializers.BlockDataDeserializer;
 import me.xemor.configurationdata.deserializers.BukkitVectorDeserializer;
 import me.xemor.configurationdata.deserializers.ItemStackDeserializer;
-import me.xemor.configurationdata.deserializers.NewEntityDataDeserializer;
+import me.xemor.configurationdata.deserializers.EntityDataDeserializer;
 import me.xemor.configurationdata.deserializers.text.*;
-import me.xemor.configurationdata.entity.NewEntityData;
+import me.xemor.configurationdata.entity.EntityData;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
@@ -55,7 +55,7 @@ public class ConfigurationData {
                 .addDeserializer(BlockData.class, new BlockDataDeserializer())
                 .addDeserializer(Vector.class, new BukkitVectorDeserializer())
                 .addDeserializer(ItemStack.class, new ItemStackDeserializer())
-                .addDeserializer(NewEntityData.class, new NewEntityDataDeserializer());
+                .addDeserializer(EntityData.class, new EntityDataDeserializer());
         objectMapper.registerModule(simpleModule);
         return objectMapper;
     }

@@ -13,7 +13,7 @@ public class PrimedTntComponent implements EntityComponent {
     private int fuseTicks = 100;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         TNTPrimed primedTnt = (TNTPrimed) entity;
         primedTnt.setFuseTicks(fuseTicks);
     }

@@ -1,8 +1,6 @@
 package me.xemor.configurationdata.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import org.bukkit.Material;
@@ -16,7 +14,7 @@ public class PotionEntityComponent implements EntityComponent {
     private ItemStack potion = new ItemStack(Material.SPLASH_POTION);
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         ThrownPotion thrownPotion = (ThrownPotion) entity;
         thrownPotion.setItem(potion);
     }

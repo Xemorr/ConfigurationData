@@ -12,7 +12,7 @@ public class ArrowComponent extends AbstractArrowComponent {
     private PotionType potionType;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         org.bukkit.entity.Arrow arrow = (org.bukkit.entity.Arrow) entity;
         arrow.setBasePotionType(potionType);
     }

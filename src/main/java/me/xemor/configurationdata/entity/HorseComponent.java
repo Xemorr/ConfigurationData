@@ -31,7 +31,7 @@ public class HorseComponent implements EntityComponent {
     private Horse.Style style = Horse.Style.NONE;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         if (entity instanceof AbstractHorse horse) {
             horse.getInventory().setSaddle(hasSaddle ? new ItemStack(Material.SADDLE) : null);
             horse.setMaxDomestication(tamingDifficulty);

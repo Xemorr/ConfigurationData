@@ -20,7 +20,7 @@ public class AbstractArrowComponent implements EntityComponent {
     private org.bukkit.entity.AbstractArrow.PickupStatus pickupStatus = org.bukkit.entity.AbstractArrow.PickupStatus.DISALLOWED;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         org.bukkit.entity.AbstractArrow abstractArrow = (org.bukkit.entity.AbstractArrow) entity;
         abstractArrow.setKnockbackStrength(knockbackStrength);
         abstractArrow.setDamage(damage);

@@ -13,7 +13,7 @@ public class AxolotlComponent implements EntityComponent {
     private Axolotl.Variant variant = null;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         Axolotl axolotl = (Axolotl) entity;
         if (variant != null) {
             axolotl.setVariant(variant);

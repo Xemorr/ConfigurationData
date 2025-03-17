@@ -13,7 +13,7 @@ public class ExperienceOrbComponent implements EntityComponent {
     private int experience = 1;
 
     @Override
-    public void apply(Entity entity, NewEntityData builderSoFar) {
+    public void apply(Entity entity, EntityData builderSoFar) {
         ExperienceOrb experienceOrb = (ExperienceOrb) entity;
         experienceOrb.setExperience(experience);
     }
