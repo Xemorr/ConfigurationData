@@ -8,6 +8,7 @@ import me.xemor.configurationdata.deserializers.ItemStackDeserializer;
 import me.xemor.configurationdata.deserializers.EntityDataDeserializer;
 import me.xemor.configurationdata.deserializers.text.*;
 import me.xemor.configurationdata.entity.EntityData;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
@@ -55,7 +56,8 @@ public class ConfigurationData {
                 .addDeserializer(BlockData.class, new BlockDataDeserializer())
                 .addDeserializer(Vector.class, new BukkitVectorDeserializer())
                 .addDeserializer(ItemStack.class, new ItemStackDeserializer())
-                .addDeserializer(EntityData.class, new EntityDataDeserializer());
+                .addDeserializer(EntityData.class, new EntityDataDeserializer())
+                .addDeserializer(Component.class, new ComponentDeserializer());
         objectMapper.registerModule(simpleModule);
         return objectMapper;
     }
