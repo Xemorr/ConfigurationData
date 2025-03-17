@@ -17,7 +17,7 @@ public class ColorableComponent implements EntityComponent {
 
     @Override
     public void apply(Entity entity, NewEntityData builderSoFar) {
-        Colorable colorable = (org.bukkit.material.Colorable) entity;
+        Colorable colorable = (Colorable) entity;
         if (dyeColor != null) colorable.setColor(dyeColor);
     }
 }
