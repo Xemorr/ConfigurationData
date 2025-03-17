@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import me.xemor.configurationdata.AttributesData;
 import me.xemor.configurationdata.ConfigurationData;
-import me.xemor.configurationdata.deserializers.text.EntityTypeDeserializer;
+import me.xemor.configurationdata.deserializers.text.RegistryDeserializer;
 import me.xemor.configurationdata.entity.EntityComponentRegistry;
 import me.xemor.configurationdata.entity.NewEntityData;
 import me.xemor.configurationdata.entity.components.EntityComponent;
+import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
 
 public class NewEntityDataDeserializer extends JsonDeserializer<NewEntityData> {
 
-    private static final EntityTypeDeserializer entityTypeDeserializer = new EntityTypeDeserializer();
+    private static final RegistryDeserializer<EntityType> entityTypeDeserializer = new RegistryDeserializer<>(Registry.ENTITY_TYPE);
 
     @Override
     public NewEntityData deserialize(JsonParser parser, DeserializationContext context) throws IOException {

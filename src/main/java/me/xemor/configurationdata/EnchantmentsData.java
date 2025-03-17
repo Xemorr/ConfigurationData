@@ -2,7 +2,8 @@ package me.xemor.configurationdata;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import me.xemor.configurationdata.deserializers.text.EnchantmentDeserializer;
+import me.xemor.configurationdata.deserializers.text.RegistryDeserializer;
+import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class EnchantmentsData {
 
-    private final static EnchantmentDeserializer ENCHANTMENT_DESERIALIZER = new EnchantmentDeserializer();
+    private final static RegistryDeserializer<Enchantment> ENCHANTMENT_DESERIALIZER = new RegistryDeserializer<>(Registry.ENCHANTMENT);
     @JsonIgnore
     private final HashMap<Enchantment, Integer> enchantments = new HashMap<>();
 

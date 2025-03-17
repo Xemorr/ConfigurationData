@@ -9,6 +9,7 @@ import me.xemor.configurationdata.deserializers.NewEntityDataDeserializer;
 import me.xemor.configurationdata.deserializers.text.*;
 import me.xemor.configurationdata.entity.NewEntityData;
 import org.bukkit.Material;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.data.BlockData;
@@ -42,15 +43,15 @@ public class ConfigurationData {
     public static ObjectMapper setupObjectMapperForConfigurationData(ObjectMapper objectMapper) {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule
-                .addDeserializer(Attribute.class, new AttributeDeserializer())
-                .addDeserializer(Enchantment.class, new EnchantmentDeserializer())
-                .addDeserializer(EntityType.class, new EntityTypeDeserializer())
-                .addDeserializer(Material.class, new MaterialDeserializer())
-                .addDeserializer(PotionEffectType.class, new PotionEffectTypeDeserializer())
-                .addDeserializer(PotionType.class, new PotionTypeDeserializer())
-                .addDeserializer(Sound.class, new SoundDeserializer())
-                .addDeserializer(TrimMaterial.class, new TrimMaterialDeserializer())
-                .addDeserializer(TrimPattern.class, new TrimPatternDeserializer())
+                .addDeserializer(Attribute.class, new RegistryDeserializer<>(Registry.ATTRIBUTE))
+                .addDeserializer(Enchantment.class, new RegistryDeserializer<>(Registry.ENCHANTMENT))
+                .addDeserializer(EntityType.class, new RegistryDeserializer<>(Registry.ENTITY_TYPE))
+                .addDeserializer(Material.class, new RegistryDeserializer<>(Registry.MATERIAL))
+                .addDeserializer(PotionEffectType.class, new RegistryDeserializer<>(Registry.EFFECT))
+                .addDeserializer(PotionType.class, new RegistryDeserializer<>(Registry.POTION))
+                .addDeserializer(Sound.class, new RegistryDeserializer<>(Registry.SOUNDS))
+                .addDeserializer(TrimMaterial.class, new RegistryDeserializer<>(Registry.TRIM_MATERIAL))
+                .addDeserializer(TrimPattern.class, new RegistryDeserializer<>(Registry.TRIM_PATTERN))
                 .addDeserializer(BlockData.class, new BlockDataDeserializer())
                 .addDeserializer(Vector.class, new BukkitVectorDeserializer())
                 .addDeserializer(ItemStack.class, new ItemStackDeserializer())

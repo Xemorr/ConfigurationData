@@ -2,19 +2,16 @@ package me.xemor.configurationdata.comparison;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import me.xemor.configurationdata.deserializers.text.EnchantmentDeserializer;
-import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
+import me.xemor.configurationdata.deserializers.text.RegistryDeserializer;
+import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EnchantComparisonData {
 
-    private final EnchantmentDeserializer ENCHANTMENT_DESERIALIZER = new EnchantmentDeserializer();
+    private final RegistryDeserializer<Enchantment> ENCHANTMENT_DESERIALIZER = new RegistryDeserializer<>(Registry.ENCHANTMENT);
     @JsonIgnore
     private final Map<Enchantment, RangeData> enchantMap = new HashMap<>();
 
