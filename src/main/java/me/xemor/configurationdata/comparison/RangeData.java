@@ -1,16 +1,19 @@
 package me.xemor.configurationdata.comparison;
 
-import org.bukkit.configuration.ConfigurationSection;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.IOException;
+
+@JsonDeserialize(using = RangeData.Deserializer.class)
 public class RangeData {
 
-    private double upperbound;
-    private double lowerbound;
+    private double upperbound = Double.POSITIVE_INFINITY;
+    private double lowerbound = Double.NEGATIVE_INFINITY;
 
-    public RangeData(String variable, ConfigurationSection configurationSection) {
-        String rangeStr = configurationSection.getString(variable);
-        init(rangeStr);
-    }
+    public RangeData() {}
 
     public RangeData(String rangeStr) {
         init(rangeStr);
@@ -27,9 +30,6 @@ public class RangeData {
                 lowerbound = Double.parseDouble(split[0]);
                 upperbound = Double.parseDouble(split[1]);
             }
-        } else {
-            lowerbound = Double.NEGATIVE_INFINITY;
-            upperbound = Double.POSITIVE_INFINITY;
         }
     }
 
@@ -37,4 +37,11 @@ public class RangeData {
         return value >= lowerbound && value <= upperbound;
     }
 
+    public static class Deserializer extends JsonDeserializer<RangeData> {
+        @Override
+        public RangeData deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+            String text = parser.getText();
+            return new RangeData(text);
+        }
+    }
 }

@@ -1,28 +1,23 @@
 package me.xemor.configurationdata.comparison;
 
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+
 public class ItemComparisonData {
 
-    private final SetData<Material> types;
-    private final RangeData amount;
+    @JsonPropertyWithDefault
+    private SetData<Material> types = new SetData<>();
+    @JsonPropertyWithDefault
+    private RangeData amount = new RangeData();
+    @JsonPropertyWithDefault
     private ItemMetaComparisonData itemMetaData = null;
-
-    public ItemComparisonData(ConfigurationSection configurationSection) {
-        types = new SetData<>(Material.class, "types", configurationSection);
-        if (!configurationSection.contains("types", true)) {
-            types.getSet().add(Material.valueOf(configurationSection.getString("type", "STONE")));
-        }
-        amount = new RangeData("amount", configurationSection);
-        ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
-        if (metadataSection != null) {
-            itemMetaData = new ItemMetaComparisonData(metadataSection);
-        }
-    }
 
     public boolean matches(ItemStack item) {
         ItemMeta meta;
@@ -35,5 +30,4 @@ public class ItemComparisonData {
         }
         return value;
     }
-
 }

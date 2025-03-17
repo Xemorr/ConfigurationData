@@ -1,114 +1,81 @@
 package me.xemor.configurationdata;
 
-import me.xemor.configurationdata.comparison.ItemMetaComparisonData;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemFactory;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemMetaData {
 
-    private final ItemMeta itemMeta;
-    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+    private static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
+    @JsonPropertyWithDefault
+    private String displayName = null;
+    @JsonPropertyWithDefault
+    private List<String> lore = null;
+    @JsonPropertyWithDefault
+    private boolean isUnbreakable = false;
+    @JsonPropertyWithDefault
+    private int durability = 0;
+    @JsonPropertyWithDefault
+    private int customModelData = 0;
+    @JsonPropertyWithDefault
+    private AttributesData attributes = null;
+    @JsonPropertyWithDefault
+    private EnchantmentsData enchants = null;
+    @JsonPropertyWithDefault
+    private TrimData trim = null;
+    @JsonPropertyWithDefault
+    private List<ItemFlag> flags = new ArrayList<>();
+    @JsonPropertyWithDefault
+    private BookData book = null;
+    @JsonPropertyWithDefault
+    private LeatherArmorColor color = null;
 
-    public ItemMetaData(ConfigurationSection configurationSection, ItemMeta baseMeta) {
-        itemMeta = baseMeta.clone();
-        String displayName = configurationSection.getString("displayName");
+    public ItemMeta createItemMeta(Material material) {
+        return applyToItemMeta(Bukkit.getItemFactory().getItemMeta(material));
+    }
+
+    public ItemMeta applyToItemMeta(ItemMeta baseMeta) {
+        ItemMeta meta = baseMeta.clone();
         if (displayName != null) {
             Component component = MiniMessage.miniMessage().deserialize(displayName);
-            itemMeta.setDisplayName(legacySerializer.serialize(component));
+            meta.setDisplayName(legacySerializer.serialize(component));
         }
-        List<String> lore = configurationSection.getStringList("lore");
         lore = lore.stream().map(string -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(string))).collect(Collectors.toList());
-        itemMeta.setLore(lore);
-        boolean isUnbreakable = configurationSection.getBoolean("isUnbreakable", false);
-        itemMeta.setUnbreakable(isUnbreakable);
-        int durability = configurationSection.getInt("durability", 0);
-        // Handles custom models from resource packs
-        int customModelData = configurationSection.getInt("customModelData", 0);
-        itemMeta.setCustomModelData(customModelData);
-        //
+        meta.setLore(lore);
 
-        if (durability != 0 && itemMeta instanceof Damageable) {
-            Damageable damageable = (Damageable) itemMeta;
-            damageable.setDamage(durability);
+        meta.setUnbreakable(isUnbreakable);
+        meta.setCustomModelData(customModelData);
+
+        if (attributes != null) attributes.applyAttributes("item", meta);
+
+        if (enchants != null) enchants.applyEnchantments(meta);
+
+        if (trim != null) trim.applyTrim(meta);
+
+        for (ItemFlag flag : flags) {
+            meta.addItemFlags(flag);
         }
 
-        ConfigurationSection attributeSection = configurationSection.getConfigurationSection("attributes");
-        if (attributeSection != null) {
-            ItemAttributeData attributeData = new ItemAttributeData(attributeSection);
-            attributeData.applyAttributes(itemMeta);
-        }
+        if (durability != 0 && meta instanceof Damageable damageable) damageable.setDamage(durability);
 
-        ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
-        if (enchantSection != null) {
-            EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
-            enchantmentData.applyEnchantments(itemMeta);
-        }
+        if (meta instanceof LeatherArmorMeta leatherMeta && color != null) color.handleLeatherArmor(leatherMeta);
 
-        ConfigurationSection trimSection = configurationSection.getConfigurationSection("trim");
-        if (trimSection != null) {
-            TrimData trimData = new TrimData(trimSection);
-            trimData.applyTrim(itemMeta);
-        }
+        if (meta instanceof BookMeta bookMeta && book != null) book.applyToBookMeta(bookMeta);
 
-        List<String> flags = configurationSection.getStringList("flags");
-        for (String flagStr : flags) {
-            try {
-                baseMeta.addItemFlags(ItemFlag.valueOf(flagStr));
-            } catch (IllegalArgumentException e) {
-                ConfigurationData.getLogger().severe("Invalid ItemFlag Entered " + flagStr + " at: " + configurationSection.getCurrentPath() + ".flags");
-            }
-        }
-
-        handleLeatherArmor(configurationSection, itemMeta);
-        handleBooks(configurationSection, itemMeta);
-    }
-
-    public void handleLeatherArmor(ConfigurationSection section, ItemMeta meta) {
-        if (meta instanceof LeatherArmorMeta armorMeta) {
-            int red = section.getInt("color.red", -1);
-            int green = section.getInt("color.green", -1);
-            int blue = section.getInt("color.blue", -1);
-            Color color;
-            if (red == -1 || blue == -1 || green == -1) {
-                color = null;
-            } else {
-                color = Color.fromRGB(red, green, blue);
-            }
-            armorMeta.setColor(color);
-        }
-    }
-
-    public void handleBooks(ConfigurationSection section, ItemMeta meta) {
-        if (meta instanceof BookMeta bookMeta) {
-            List<String> pages = section.getStringList("book.pages").stream()
-                    .map((s) -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(s)))
-                    .toList();
-            String author = section.getString("book.author", "");
-            String title = legacySerializer.serialize(MiniMessage.miniMessage().deserialize(section.getString("book.title", "Xemor is cool")));
-            bookMeta.setGeneration(BookMeta.Generation.ORIGINAL);
-            bookMeta.setAuthor(author);
-            bookMeta.setPages(pages);
-            bookMeta.setTitle(title);
-        }
-    }
-
-    public ItemMeta getItemMeta() {
-        return itemMeta;
+        return meta;
     }
 
 }

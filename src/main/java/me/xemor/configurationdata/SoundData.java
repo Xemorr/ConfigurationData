@@ -1,31 +1,16 @@
 package me.xemor.configurationdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
-import org.bukkit.configuration.ConfigurationSection;
 
-public class SoundData {
-
-    private Sound sound;
-    private float volume;
-    private float pitch;
-
-    public SoundData(ConfigurationSection configurationSection) {
-        sound = Registry.SOUNDS.match(configurationSection.getString("sound", "ENTITY_GENERIC_EXPLODE").toUpperCase());
-        volume = (float) configurationSection.getDouble("volume", 1.0);
-        pitch = (float) configurationSection.getDouble("pitch", 1.0);
+public record SoundData(Sound sound, float volume, float pitch) {
+    @JsonCreator
+    public SoundData(Sound sound, Float volume, Float pitch) {
+        this(
+            sound != null ? sound : Registry.SOUNDS.match("ENTITY_GENERIC_EXPLODE"),
+            volume != null ? volume : 1.0f,
+            pitch != null ? pitch : 1.0f
+        );
     }
-
-    public Sound getSound() {
-        return sound;
-    }
-
-    public float getVolume() {
-        return volume;
-    }
-
-    public float getPitch() {
-        return pitch;
-    }
-
 }

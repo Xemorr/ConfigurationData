@@ -1,18 +1,20 @@
 package me.xemor.configurationdata.comparison;
 
-import org.bukkit.configuration.ConfigurationSection;
-import me.xemor.configurationdata.ConfigurationData;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class SetData<T extends Enum<T>> {
+@JsonDeserialize(using = SetData.SetDataDeserializer.class)
+public class SetData<T> {
 
-    private final Set<T> set;
-
-    public SetData(Class<T> tClass, String variable, ConfigurationSection section) {
-        set = section.getStringList(variable).stream().map(String::toUpperCase).map(value -> valueOf(section, variable, tClass, value)).collect(Collectors.toSet());
-    }
+    private final Set<T> set = new HashSet<>();
 
     public boolean inSet(T t) {
         return set.isEmpty() || set.contains(t);
@@ -22,13 +24,25 @@ public class SetData<T extends Enum<T>> {
         return set;
     }
 
-    private T valueOf(ConfigurationSection section, String variable, Class<T> tClass, String value) {
-        try {
-            return Enum.valueOf(tClass, value);
-        } catch (IllegalArgumentException e) {
-            ConfigurationData.getLogger().severe("You have entered an invalid " + tClass.getName() + " at " + section.getCurrentPath() + "." + variable + ". Specifically: " + value);
+    public void addValue(T value) {
+        set.add(value);
+    }
+
+    public static class SetDataDeserializer<T> extends JsonDeserializer<SetData<T>> {
+        @Override
+        public SetData<T> deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
+            JavaType contextualType = context.getContextualType();
+            Class<T> type = (Class<T>) contextualType.containedType(0).getRawClass();
+
+            SetData<T> setData = new SetData<>();
+            JsonNode node = jsonParser.readValueAsTree();
+            for (JsonNode element : node) {
+                T value = jsonParser.getCodec().treeToValue(element, type);
+                setData.addValue(value);
+            }
+
+            return setData;
         }
-        return null;
     }
 
 }

@@ -12,6 +12,7 @@ mvn clean package install
 
 
 You can depend on it in your own plugins like so
+You should make sure that it's sub dependencies i.e jackson and minimessage are relocated correctly.
 ```xml
         <dependency>
             <groupId>me.xemor</groupId>

@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "3.5.1-SNAPSHOT"
+version = "4.0.3"
 description = "configurationdata"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -20,6 +20,8 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:20.1.0")
+    compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.3")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.3")
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.14.0")
 }
@@ -59,6 +61,7 @@ publishing {
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
+    options.compilerArgs.add("-parameters") // necessary for jackson to be able to see parameter names
 }
 //End of auto generated
 

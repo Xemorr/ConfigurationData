@@ -1,29 +1,26 @@
 package me.xemor.configurationdata.comparison;
 
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.configuration.ConfigurationSection;
+import org.w3c.dom.ranges.Range;
 
 import java.util.logging.Level;
 
 public class BlockDataComparisonData {
-    private final SetData<Material> types;
-    private final RangeData level;
-    private final RangeData age;
 
-    public BlockDataComparisonData(ConfigurationSection configurationSection) {
-        types = new SetData<>(Material.class, "types", configurationSection);
-        if (types.getSet().isEmpty()) {
-            types.getSet().add(Material.valueOf(configurationSection.getString("type", "STONE")));
-        }
-        level = new RangeData("level", configurationSection);
-        age = new RangeData("age", configurationSection);
-    }
+    @JsonPropertyWithDefault
+    private SetData<Material> types = new SetData<>();
+    @JsonPropertyWithDefault
+    private RangeData level = new RangeData();
+    @JsonPropertyWithDefault
+    private RangeData age = new RangeData();
 
     public boolean matches(BlockData blockData) {
-        if (blockData==null) return false;
+        if (blockData == null) return false;
         boolean value = types.inSet(blockData.getMaterial());
 
         if (blockData instanceof Levelled levelled) value &= level.isInRange(levelled.getLevel());
@@ -31,5 +28,4 @@ public class BlockDataComparisonData {
 
         return value;
     }
-
 }
