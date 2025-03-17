@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.0.4"
+version = "4.0.5"
 description = "configurationdata"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
