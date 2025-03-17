@@ -1,9 +1,11 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.entity.Entity;
 import org.bukkit.potion.PotionType;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrowComponent extends AbstractArrowComponent {
 
     @JsonPropertyWithDefault

@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.bukkit.Color;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-public record LeatherArmorColor(int red, int green, int blue) {
+public class LeatherArmorColor {
 
-    @JsonCreator
-    public LeatherArmorColor(Integer red, Integer green, Integer blue) {
-        this(red == null ? -1 : red, green == null ? -1 : green, blue == null ? -1 : blue);
-    }
+    @JsonPropertyWithDefault
+    private int red = -1;
+    @JsonPropertyWithDefault
+    private int green = - 1;
+    @JsonPropertyWithDefault
+    private int blue = -1;
 
     public void handleLeatherArmor(LeatherArmorMeta meta) {
         Color color;

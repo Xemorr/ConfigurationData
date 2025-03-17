@@ -1,5 +1,6 @@
 package me.xemor.configurationdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

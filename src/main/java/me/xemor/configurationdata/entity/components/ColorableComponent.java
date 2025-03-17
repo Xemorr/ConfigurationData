@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity.components;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.NewEntityData;
@@ -8,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.material.Colorable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ColorableComponent implements EntityComponent {
 
     @JsonPropertyWithDefault

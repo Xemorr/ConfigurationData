@@ -1,17 +1,19 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LlamaComponent implements EntityComponent {
 
     @JsonPropertyWithDefault
-    private final Llama.Color color = null;
+    private Llama.Color color = null;
     @JsonPropertyWithDefault
-    private final int strength = 1;
+    private int strength = 1;
 
     @Override
     public void apply(Entity entity, NewEntityData builderSoFar) {

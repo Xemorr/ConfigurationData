@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +31,13 @@ public class ItemMetaData {
     @JsonPropertyWithDefault
     private int customModelData = 0;
     @JsonPropertyWithDefault
-    private AttributesData attributes;
+    private AttributesData attributes = null;
     @JsonPropertyWithDefault
-    private EnchantmentsData enchants;
+    private EnchantmentsData enchants = null;
     @JsonPropertyWithDefault
-    private TrimData trim;
+    private TrimData trim = null;
     @JsonPropertyWithDefault
-    private List<ItemFlag> flags;
+    private List<ItemFlag> flags = new ArrayList<>();
     @JsonPropertyWithDefault
     private BookData book = null;
     @JsonPropertyWithDefault

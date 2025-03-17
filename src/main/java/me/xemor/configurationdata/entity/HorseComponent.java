@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import org.bukkit.Material;
@@ -9,20 +10,21 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.inventory.ItemStack;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class HorseComponent implements EntityComponent {
 
     @JsonPropertyWithDefault
-    private final int tamingDifficulty = 1;
+    private int tamingDifficulty = 1;
     @JsonPropertyWithDefault
-    private final double jumpStrength = 0.7;
+    private double jumpStrength = 0.7;
     @JsonPropertyWithDefault
-    private final boolean hasChest = false;
+    private boolean hasChest = false;
     @JsonPropertyWithDefault
-    private final boolean tamed = false;
+    private boolean tamed = false;
     @JsonPropertyWithDefault
     private ItemStack armor = null;
     @JsonPropertyWithDefault
-    private final boolean hasSaddle = false;
+    private boolean hasSaddle = false;
     @JsonPropertyWithDefault
     private Horse.Color color = Horse.Color.CHESTNUT;
     @JsonPropertyWithDefault

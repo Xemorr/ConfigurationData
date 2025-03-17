@@ -1,21 +1,23 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import org.bukkit.entity.Entity;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AbstractArrowComponent implements EntityComponent {
 
     @JsonPropertyWithDefault
-    private final int knockbackStrength = 0;
+    private int knockbackStrength = 0;
     @JsonPropertyWithDefault
-    private final double damage = 2.0;
+    private double damage = 2.0;
     @JsonPropertyWithDefault
-    private final int pierceLevel = 0;
+    private int pierceLevel = 0;
     @JsonPropertyWithDefault
-    private final boolean critical = false;
+    private boolean critical = false;
     @JsonPropertyWithDefault
-    private final org.bukkit.entity.AbstractArrow.PickupStatus pickupStatus = org.bukkit.entity.AbstractArrow.PickupStatus.DISALLOWED;
+    private org.bukkit.entity.AbstractArrow.PickupStatus pickupStatus = org.bukkit.entity.AbstractArrow.PickupStatus.DISALLOWED;
 
     @Override
     public void apply(Entity entity, NewEntityData builderSoFar) {

@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.EquipmentData;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.components.EntityComponent;
@@ -7,6 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LivingEntityComponent implements EntityComponent {
 
     @JsonPropertyWithDefault

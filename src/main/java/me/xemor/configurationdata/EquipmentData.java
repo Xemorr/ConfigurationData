@@ -9,21 +9,21 @@ public class EquipmentData {
 
     @JsonPropertyWithDefault
     @JsonAlias({"helmet"})
-    private final EquipableData head = null;
+    private EquipableData head = null;
     @JsonPropertyWithDefault
     @JsonAlias({"chestplate"})
-    private final EquipableData chest = null;
+    private EquipableData chest = null;
     @JsonPropertyWithDefault
     @JsonAlias({"leggings"})
-    private final EquipableData legs = null;
+    private EquipableData legs = null;
     @JsonPropertyWithDefault
     @JsonAlias({"feet"})
-    private final EquipableData feet = null;
+    private EquipableData feet = null;
     @JsonPropertyWithDefault
     @JsonAlias("hand")
-    private final EquipableData mainhand = null;
+    private EquipableData mainhand = null;
     @JsonPropertyWithDefault
-    private final EquipableData offhand = null;
+    private EquipableData offhand = null;
 
     public EquipableData getHead() {
         return head;

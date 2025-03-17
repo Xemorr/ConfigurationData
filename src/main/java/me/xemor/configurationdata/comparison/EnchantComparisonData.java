@@ -1,6 +1,8 @@
 package me.xemor.configurationdata.comparison;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import me.xemor.configurationdata.deserializers.text.EnchantmentDeserializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -12,10 +14,14 @@ import java.util.Map;
 
 public class EnchantComparisonData {
 
+    private final EnchantmentDeserializer ENCHANTMENT_DESERIALIZER = new EnchantmentDeserializer();
+    @JsonIgnore
     private final Map<Enchantment, RangeData> enchantMap = new HashMap<>();
 
     @JsonAnySetter
-    public void addEnchantment(Enchantment enchantment, RangeData rangeData) {
+    public void addEnchantment(String enchantmentStr, RangeData rangeData) {
+        Enchantment enchantment = ENCHANTMENT_DESERIALIZER.parse(enchantmentStr);
+        if (enchantment == null) return;
         enchantMap.put(enchantment, rangeData);
     }
 

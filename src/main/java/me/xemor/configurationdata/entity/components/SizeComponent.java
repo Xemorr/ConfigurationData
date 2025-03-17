@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity.components;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.NewEntityData;
 import org.bukkit.configuration.ConfigurationSection;
@@ -7,10 +8,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Slime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SizeComponent implements EntityComponent {
 
     @JsonPropertyWithDefault
-    private final Integer size = null;
+    private Integer size = null;
 
     @Override
     public void apply(Entity entity, NewEntityData builderSoFar) {

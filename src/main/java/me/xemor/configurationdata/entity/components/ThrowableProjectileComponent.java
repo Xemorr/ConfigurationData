@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity.components;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.ItemStackData;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.entity.NewEntityData;
@@ -7,10 +8,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ThrowableProjectile;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ThrowableProjectileComponent implements EntityComponent {
 
     @JsonPropertyWithDefault
-    private final ItemStackData itemStackData = null;
+    private ItemStackData itemStackData = null;
 
     @Override
     public void apply(Entity entity, NewEntityData builderSoFar) {

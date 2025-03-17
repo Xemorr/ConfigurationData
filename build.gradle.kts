@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.0.2"
+version = "4.0.3"
 description = "configurationdata"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -20,8 +20,8 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:20.1.0")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.3")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.3")
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.14.0")
 }

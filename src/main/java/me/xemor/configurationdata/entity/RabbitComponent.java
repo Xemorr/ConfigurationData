@@ -1,5 +1,6 @@
 package me.xemor.configurationdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.deserializers.NewEntityDataDeserializer;
@@ -8,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Rabbit;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RabbitComponent implements EntityComponent {
 
     @JsonPropertyWithDefault

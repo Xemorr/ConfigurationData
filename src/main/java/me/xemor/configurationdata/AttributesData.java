@@ -1,9 +1,7 @@
 package me.xemor.configurationdata;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.annotation.*;
+import me.xemor.configurationdata.deserializers.text.AttributeDeserializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -19,14 +17,18 @@ import java.util.UUID;
 
 public class AttributesData {
     private final Map<Attribute, Double> attributeToValue = new HashMap<>();
+    @JsonIgnore
+    private final static AttributeDeserializer attributeDeserializer = new AttributeDeserializer();
 
     @JsonPropertyWithDefault
-    private final EquipmentSlotGroup equipmentSlot = EquipmentSlotGroup.ANY;
+    private EquipmentSlotGroup equipmentSlot = EquipmentSlotGroup.ANY;
     @JsonPropertyWithDefault
-    private final AttributeModifier.Operation operation = AttributeModifier.Operation.ADD_NUMBER;
+    private AttributeModifier.Operation operation = AttributeModifier.Operation.ADD_NUMBER;
 
     @JsonAnySetter
-    public void addAttribute(Attribute attribute, double value) {
+    public void addAttribute(String attributeStr, double value) {
+        Attribute attribute = attributeDeserializer.parse(attributeStr);
+        if (attribute == null) return;
         attributeToValue.put(attribute, value);
     }
 
