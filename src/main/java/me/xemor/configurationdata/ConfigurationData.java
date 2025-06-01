@@ -2,16 +2,14 @@ package me.xemor.configurationdata;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import me.xemor.configurationdata.deserializers.BlockDataDeserializer;
-import me.xemor.configurationdata.deserializers.BukkitVectorDeserializer;
-import me.xemor.configurationdata.deserializers.ItemStackDeserializer;
-import me.xemor.configurationdata.deserializers.EntityDataDeserializer;
-import me.xemor.configurationdata.deserializers.text.*;
+import me.xemor.configurationdata.deserializers.*;
+import me.xemor.configurationdata.deserializers.text.ComponentDeserializer;
+import me.xemor.configurationdata.deserializers.text.RegistryDeserializer;
+import me.xemor.configurationdata.deserializers.text.RegistryKeyDeserializer;
 import me.xemor.configurationdata.entity.EntityData;
+import me.xemor.configurationdata.particles.shapes.Shapes;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
-import org.bukkit.Registry;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
@@ -53,13 +51,31 @@ public class ConfigurationData {
                 .addDeserializer(Sound.class, new RegistryDeserializer<>(Registry.SOUNDS))
                 .addDeserializer(TrimMaterial.class, new RegistryDeserializer<>(Registry.TRIM_MATERIAL))
                 .addDeserializer(TrimPattern.class, new RegistryDeserializer<>(Registry.TRIM_PATTERN))
+                .addDeserializer(Particle.class, new RegistryDeserializer<>(Registry.PARTICLE_TYPE))
                 .addDeserializer(BlockData.class, new BlockDataDeserializer())
                 .addDeserializer(Vector.class, new BukkitVectorDeserializer())
                 .addDeserializer(ItemStack.class, new ItemStackDeserializer())
                 .addDeserializer(EntityData.class, new EntityDataDeserializer())
-                .addDeserializer(Component.class, new ComponentDeserializer());
+                .addDeserializer(Component.class, new ComponentDeserializer())
+                .addDeserializer(Color.class, new ColorDeserializer());
+        simpleModule
+                .addKeyDeserializer(Attribute.class, new RegistryKeyDeserializer<>(Registry.ATTRIBUTE))
+                .addKeyDeserializer(Enchantment.class, new RegistryKeyDeserializer<>(Registry.ENCHANTMENT))
+                .addKeyDeserializer(EntityType.class, new RegistryKeyDeserializer<>(Registry.ENTITY_TYPE))
+                .addKeyDeserializer(Material.class, new RegistryKeyDeserializer<>(Registry.MATERIAL))
+                .addKeyDeserializer(PotionEffectType.class, new RegistryKeyDeserializer<>(Registry.EFFECT))
+                .addKeyDeserializer(PotionType.class, new RegistryKeyDeserializer<>(Registry.POTION))
+                .addKeyDeserializer(Sound.class, new RegistryKeyDeserializer<>(Registry.SOUNDS))
+                .addKeyDeserializer(TrimMaterial.class, new RegistryKeyDeserializer<>(Registry.TRIM_MATERIAL))
+                .addKeyDeserializer(TrimPattern.class, new RegistryKeyDeserializer<>(Registry.TRIM_PATTERN))
+                .addKeyDeserializer(Particle.class, new RegistryKeyDeserializer<>(Registry.PARTICLE_TYPE));
         objectMapper.registerModule(simpleModule);
+        objectMapper.registerSubtypes(Shapes.getNamedSubTypes());
         return objectMapper;
+    }
+
+    public static int getArbitraryClock() {
+        return (int) Math.abs((System.currentTimeMillis() / 50L));
     }
 
     public static void setup(JavaPlugin newPlugin) {

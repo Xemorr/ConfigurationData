@@ -1,6 +1,5 @@
 package me.xemor.configurationdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 

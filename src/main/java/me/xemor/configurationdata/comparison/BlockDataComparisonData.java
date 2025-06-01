@@ -5,10 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
-import org.bukkit.configuration.ConfigurationSection;
-import org.w3c.dom.ranges.Range;
-
-import java.util.logging.Level;
 
 public class BlockDataComparisonData {
 

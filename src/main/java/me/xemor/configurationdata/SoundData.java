@@ -4,13 +4,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
 
-public record SoundData(Sound sound, float volume, float pitch) {
-    @JsonCreator
-    public SoundData(Sound sound, Float volume, Float pitch) {
-        this(
-            sound != null ? sound : Registry.SOUNDS.match("ENTITY_GENERIC_EXPLODE"),
-            volume != null ? volume : 1.0f,
-            pitch != null ? pitch : 1.0f
-        );
+public class SoundData {
+
+    @JsonPropertyWithDefault
+    private Sound sound = Sound.ENTITY_GENERIC_EXPLODE;
+    @JsonPropertyWithDefault
+    private float volume = 1.0f;
+    @JsonPropertyWithDefault
+    private float pitch = 1.0f;
+
+    public Sound sound() {
+        return sound;
+    }
+
+    public float volume() {
+        return volume;
+    }
+
+    public float pitch() {
+        return pitch;
     }
 }

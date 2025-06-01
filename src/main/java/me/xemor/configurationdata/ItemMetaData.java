@@ -1,19 +1,19 @@
 package me.xemor.configurationdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ItemMetaData {
@@ -33,8 +33,6 @@ public class ItemMetaData {
     @JsonPropertyWithDefault
     private AttributesData attributes = null;
     @JsonPropertyWithDefault
-    private EnchantmentsData enchants = null;
-    @JsonPropertyWithDefault
     private TrimData trim = null;
     @JsonPropertyWithDefault
     private List<ItemFlag> flags = new ArrayList<>();
@@ -42,6 +40,8 @@ public class ItemMetaData {
     private BookData book = null;
     @JsonPropertyWithDefault
     private LeatherArmorColor color = null;
+    @JsonPropertyWithDefault
+    private Map<Enchantment, Integer> enchantments = new HashMap<>();
 
     public ItemMeta createItemMeta(Material material) {
         return applyToItemMeta(Bukkit.getItemFactory().getItemMeta(material));
@@ -53,15 +53,17 @@ public class ItemMetaData {
             Component component = MiniMessage.miniMessage().deserialize(displayName);
             meta.setDisplayName(legacySerializer.serialize(component));
         }
-        lore = lore.stream().map(string -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(string))).collect(Collectors.toList());
-        meta.setLore(lore);
+        if (lore != null) {
+            lore = lore.stream().map(string -> legacySerializer.serialize(MiniMessage.miniMessage().deserialize(string))).collect(Collectors.toList());
+            meta.setLore(lore);
+        }
 
         meta.setUnbreakable(isUnbreakable);
         meta.setCustomModelData(customModelData);
 
-        if (attributes != null) attributes.applyAttributes("item", meta);
+        if (attributes != null) attributes.applyAttributes(meta);
 
-        if (enchants != null) enchants.applyEnchantments(meta);
+        if (!enchantments.isEmpty()) applyEnchantments(meta);
 
         if (trim != null) trim.applyTrim(meta);
 
@@ -76,6 +78,19 @@ public class ItemMetaData {
         if (meta instanceof BookMeta bookMeta && book != null) book.applyToBookMeta(bookMeta);
 
         return meta;
+    }
+
+    public void applyEnchantments(ItemMeta itemMeta) {
+        if (itemMeta instanceof EnchantmentStorageMeta enchantmentStorageMeta) {
+            for (Map.Entry<Enchantment, Integer> item : enchantments.entrySet()) {
+                enchantmentStorageMeta.addStoredEnchant(item.getKey(), item.getValue(), true);
+            }
+        }
+        else {
+            for (Map.Entry<Enchantment, Integer> item : enchantments.entrySet()) {
+                itemMeta.addEnchant(item.getKey(), item.getValue(), true);
+            }
+        }
     }
 
 }

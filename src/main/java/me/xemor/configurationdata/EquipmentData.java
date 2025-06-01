@@ -1,7 +1,6 @@
 package me.xemor.configurationdata;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 
@@ -17,7 +16,7 @@ public class EquipmentData {
     @JsonAlias({"leggings"})
     private EquipableData legs = null;
     @JsonPropertyWithDefault
-    @JsonAlias({"feet"})
+    @JsonAlias({"boots"})
     private EquipableData feet = null;
     @JsonPropertyWithDefault
     @JsonAlias("hand")

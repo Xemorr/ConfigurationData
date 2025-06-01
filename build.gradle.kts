@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.0.8"
+version = "4.4.6"
 description = "configurationdata"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:20.1.0")
     compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.3")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.3")

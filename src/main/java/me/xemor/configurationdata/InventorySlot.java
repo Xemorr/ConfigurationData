@@ -1,5 +1,7 @@
 package me.xemor.configurationdata;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import me.xemor.configurationdata.deserializers.text.TextDeserializer;
 import org.bukkit.inventory.EquipmentSlot;
@@ -26,20 +28,19 @@ public class InventorySlot {
         return slot;
     }
 
-    public class InventorySlotDeserializer extends TextDeserializer<InventorySlot> {
+    public static class InventorySlotDeserializer extends TextDeserializer<InventorySlot> {
 
         @Override
-        public InventorySlot deserialize(String text) {
+        public InventorySlot deserialize(String text, JsonParser jsonParser, DeserializationContext deserializationContext) {
             try {
-                equipmentSlot = EquipmentSlot.valueOf(text);
+                return new InventorySlot(EquipmentSlot.valueOf(text));
             } catch (IllegalArgumentException e) {
                 try {
-                    slot = Integer.parseInt(text);
+                    return new InventorySlot(Integer.parseInt(text));
                 } catch (NumberFormatException ignored) {
                     return null;
                 }
             }
-            return null;
         }
     }
 }

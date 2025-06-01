@@ -2,15 +2,11 @@ package me.xemor.configurationdata.comparison;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import me.xemor.configurationdata.JsonPropertyWithDefault;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 
 import java.io.IOException;
 import java.util.ArrayList;

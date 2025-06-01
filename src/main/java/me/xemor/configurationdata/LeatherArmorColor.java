@@ -1,6 +1,5 @@
 package me.xemor.configurationdata;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.bukkit.Color;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 

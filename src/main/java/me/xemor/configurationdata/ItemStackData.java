@@ -1,6 +1,6 @@
 package me.xemor.configurationdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +12,7 @@ public class ItemStackData {
     @JsonPropertyWithDefault
     private Material type = Material.STONE;
     @JsonPropertyWithDefault
+    @JsonAlias("quantity")
     private int amount = 1;
     @JsonPropertyWithDefault
     private ItemMetaData metadata = null;

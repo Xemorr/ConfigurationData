@@ -35,6 +35,7 @@ public class EntityComponentRegistry {
         registerEntityData(ThrowableProjectile.class, ThrowableProjectileComponent.class);
         registerEntityData(PiglinAbstract.class, ZombifiableComponent.class);
         registerEntityData(Hoglin.class, ZombifiableComponent.class);
+        registerEntityData(LivingEntity.class, LivingEntityComponent.class);
     }
 
     public static void registerEntityData(Class inheritsFrom, Class<? extends EntityComponent> entityComponentDataClass) {
@@ -43,7 +44,7 @@ public class EntityComponentRegistry {
 
     public static List<? extends Class<? extends EntityComponent>> getEntityComponentDataClasses(Class<? extends Entity> inheritsFrom) {
         return entityTypeToDataClass.stream()
-                .filter((pair) -> inheritsFrom.isAssignableFrom(pair.clazz))
+                .filter((pair) -> pair.clazz.isAssignableFrom(inheritsFrom))
                 .map((pair) -> pair.componentClazz)
                 .toList();
     }

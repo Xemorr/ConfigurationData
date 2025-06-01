@@ -8,6 +8,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.Map;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LivingEntityComponent implements EntityComponent {
 
@@ -22,8 +24,10 @@ public class LivingEntityComponent implements EntityComponent {
         livingEntity.setRemoveWhenFarAway(builderSoFar.shouldDespawn());
         livingEntity.setCanPickupItems(canEquip);
         if (equipment != null) equipment.applyEquipment(livingEntity);
-        builderSoFar.getAttributes().applyAttributes("entity-setup", livingEntity);
-        livingEntity.setHealth(builderSoFar.getAttributes().getValue(livingEntity, Attribute.MAX_HEALTH));
+        for (Map.Entry<Attribute, Double> entry : builderSoFar.getAttributes().entrySet()) {
+            livingEntity.getAttribute(entry.getKey()).setBaseValue(entry.getValue());
+        }
+        livingEntity.setHealth(livingEntity.getAttribute(Attribute.MAX_HEALTH).getValue());
     }
 
     public EquipmentData getEquipment() {

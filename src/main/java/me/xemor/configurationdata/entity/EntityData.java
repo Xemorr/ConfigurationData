@@ -6,12 +6,16 @@ import me.xemor.configurationdata.deserializers.EntityDataDeserializer;
 import me.xemor.configurationdata.entity.components.EntityComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @JsonDeserialize(using = EntityDataDeserializer.class)
 public final class EntityData {
@@ -24,7 +28,7 @@ public final class EntityData {
     private boolean customNameVisible = false;
     private boolean silent = false;
     private boolean visualFire = false;
-    private AttributesData attributes = null;
+    private Map<Attribute, Double> attributes = null;
     private EntityData passenger = null;
     private List<EntityComponent> entitySpecificAttributes = new ArrayList<>();
 
@@ -58,7 +62,7 @@ public final class EntityData {
         return this;
     }
 
-    public EntityData setAttributes(AttributesData attributes) {
+    public EntityData setAttributes(Map<Attribute, Double> attributes) {
         this.attributes = attributes;
         return this;
     }
@@ -77,7 +81,7 @@ public final class EntityData {
         return passenger;
     }
 
-    public AttributesData getAttributes() {
+    public Map<Attribute, Double> getAttributes() {
         return attributes;
     }
 

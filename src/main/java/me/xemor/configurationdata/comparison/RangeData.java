@@ -1,13 +1,15 @@
 package me.xemor.configurationdata.comparison;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.IOException;
 
-@JsonDeserialize(using = RangeData.Deserializer.class)
+@JsonDeserialize(using = RangeData.RangeDataDeserializer.class)
 public class RangeData {
 
     private double upperbound = Double.POSITIVE_INFINITY;
@@ -19,7 +21,13 @@ public class RangeData {
         init(rangeStr);
     }
 
+    public RangeData(double number) {
+        this.upperbound = number;
+        this.lowerbound = number;
+    }
+
     public void init(String rangeStr) {
+        rangeStr = rangeStr.stripLeading();
         if (rangeStr != null) {
             String[] split = rangeStr.split("- ");
             if (split.length == 1) {
@@ -37,11 +45,12 @@ public class RangeData {
         return value >= lowerbound && value <= upperbound;
     }
 
-    public static class Deserializer extends JsonDeserializer<RangeData> {
+    public static class RangeDataDeserializer extends JsonDeserializer<RangeData> {
         @Override
-        public RangeData deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-            String text = parser.getText();
-            return new RangeData(text);
+        public RangeData deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+            JsonToken token = p.getCurrentToken();
+            if (token.isNumeric()) return new RangeData(p.getDoubleValue());
+            else return new RangeData(p.getText());
         }
     }
 }
