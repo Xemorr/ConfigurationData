@@ -24,6 +24,9 @@ dependencies {
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.3")
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.14.0")
+    if (project.hasProperty("document")) { // add -Pdocument
+        annotationProcessor("me.sepdron:AutoDocProcessor:1.0-SNAPSHOT")
+    }
 }
 
 publishing {

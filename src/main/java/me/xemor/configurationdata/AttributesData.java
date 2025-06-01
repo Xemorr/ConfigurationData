@@ -28,6 +28,14 @@ public class AttributesData {
     @JsonProperty
     @JsonAlias("unique_key")
     private String uniqueKey;
+    private AttributeModifier.Operation operation = AttributeModifier.Operation.ADD_NUMBER;
+
+    @JsonAnySetterWithTypedKey(Attribute.class)
+    public void addAttribute(String attributeStr, double value) {
+        Attribute attribute = attributeDeserializer.parse(attributeStr);
+        if (attribute == null) return;
+        attributeToValue.put(attribute, value);
+    }
 
     public AttributesData() {}
 
