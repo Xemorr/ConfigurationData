@@ -13,7 +13,6 @@ public class Duration {
         this.durationInSeconds = duration;
     }
 
-    @JsonCreator
     public Duration(int duration) { this.durationInSeconds = (double) duration; }
 
     public Optional<Double> getDurationInSeconds() {
