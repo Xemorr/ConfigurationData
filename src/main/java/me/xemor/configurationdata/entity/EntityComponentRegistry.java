@@ -18,7 +18,9 @@ public class EntityComponentRegistry {
         registerEntityData(Item.class, DroppedItemComponent.class);
         registerEntityData(ExperienceOrb.class, ExperienceOrbComponent.class);
         registerEntityData(FallingBlock.class, FallingBlockComponent.class);
-        registerEntityData(AbstractHorse.class, HorseComponent.class);
+        registerEntityData(AbstractHorse.class, AbstractHorseComponent.class);
+        registerEntityData(Horse.class, HorseComponent.class);
+        registerEntityData(ChestedHorse.class, ChestedHorseComponent.class);
         registerEntityData(Llama.class, LlamaComponent.class);
         registerEntityData(TNTPrimed.class, PrimedTntComponent.class);
         registerEntityData(SpectralArrow.class, SpectralArrowComponent.class);
