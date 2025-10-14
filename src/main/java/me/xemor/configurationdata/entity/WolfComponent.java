@@ -9,6 +9,7 @@ import org.bukkit.entity.Wolf;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WolfComponent implements EntityComponent {
 
+    // TODO: Add variant
     @JsonPropertyWithDefault
     private boolean angry = false;
 
