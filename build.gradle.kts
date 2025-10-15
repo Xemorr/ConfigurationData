@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.10-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:20.1.0")
     compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.3")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.3")
