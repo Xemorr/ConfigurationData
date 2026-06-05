@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ public class RegistryDeserializer<T extends Keyed> extends TextDeserializer<T> {
     @Override
     public T deserialize(String text, JsonParser parser, DeserializationContext deserializationContext)  {
         if (text == null) return null;
-        T value = Optional.ofNullable(NamespacedKey.fromString(text.toLowerCase())).map(registry::get).orElse(null);
+        T value = Optional.ofNullable(NamespacedKey.fromString(text.toLowerCase(Locale.ROOT))).map(registry::get).orElse(null);
         if (value == null) {
             // Get the field name and location (for better error messages)
             String fieldName = null;

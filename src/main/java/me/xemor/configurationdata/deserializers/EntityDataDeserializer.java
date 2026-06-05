@@ -18,6 +18,7 @@ import org.bukkit.entity.EntityType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -31,7 +32,7 @@ public class EntityDataDeserializer extends JsonDeserializer<EntityData> {
             return new EntityData(); // Avoids Jackson misinterpreting structure
         }
 
-        NamespacedKey key = NamespacedKey.fromString(node.path("type").asText("ZOMBIE").toLowerCase());
+        NamespacedKey key = NamespacedKey.fromString(node.path("type").asText("ZOMBIE").toLowerCase(Locale.ROOT));
 
         EntityType type = key == null ? EntityType.ZOMBIE : Registry.ENTITY_TYPE.get(key);
 
